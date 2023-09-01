@@ -237,4 +237,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-.gitignore
+.idea
+
+/database/migration/*

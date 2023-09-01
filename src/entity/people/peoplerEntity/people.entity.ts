@@ -9,10 +9,10 @@ export class PeopleEntity {
   name: string;
 
   @Column()
-  height: number;
+  height: string;
 
   @Column()
-  mass: number;
+  mass: string;
 
   @Column()
   hair_color: string;
@@ -33,16 +33,16 @@ export class PeopleEntity {
   // homeworld: string;
 
   // @Column()
-  // films: [string];
+  // films: string[];
   //
   // @Column()
-  // species: [string];
+  // species: string[];
   //
   // @Column()
-  // vehicles: [string];
+  // vehicles: string[];
   //
   // @Column()
-  // starships: [string];
+  // starships: string[];
 
   @Column()
   created: string;
@@ -52,4 +52,7 @@ export class PeopleEntity {
 
   // @Column()
   // url: string;
+
+  @Column()
+  img_url: string;
 }
