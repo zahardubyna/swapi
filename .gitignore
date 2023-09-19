@@ -237,6 +237,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-.idea
-
 /database/migration/*
+
+/public/images/*

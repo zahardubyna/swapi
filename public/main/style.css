@@ -1,0 +1,70 @@
+@charset "UTF-8";
+:root {
+  --dotcolor:50, 49, 51;
+  --dot: radial-gradient(rgb(var(--dotcolor)) 67%, rgba(var(--dotcolor), 0) 68%);
+}
+
+/*
+	For small and big construct:
+	• List of radial-gradients/var(--dot) [all the same, can be different for different colours] => background-image
+	• List of positions, using trig to go around a radius => background-position
+	• List of sizes [all the same, can be different for different sizes] => background-size
+	Also background-repeat: no-repeat; and background-color:white; are vital
+*/
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body .spinner {
+  position: relative;
+  width: 25vmin;
+  height: 25vmin;
+  filter: blur(0.5vmin) contrast(12);
+}
+body .spinner:before, body .spinner:after {
+  display: block;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 50%;
+  background-color: #ffffff;
+  background-repeat: no-repeat;
+  -webkit-animation: spin linear infinite;
+          animation: spin linear infinite;
+  mix-blend-mode: multiply;
+}
+body .spinner:before {
+  background-image: var(--dot), var(--dot), var(--dot), var(--dot), var(--dot), var(--dot), var(--dot), var(--dot), var(--dot);
+  background-position: 50% 90%, 75.7115043875% 80.6417777248%, 89.3923101205% 56.9459271067%, 84.6410161514% 30%, 63.680805733% 12.4122951688%, 36.3191942716% 12.4122951992%, 15.3589841541% 30.0000016734%, 10.6077003589% 56.9459762611%, 24.2887189832% 80.6426935862%;
+  background-size: 10% 10%, 10% 10%, 10% 10%, 10% 10%, 10% 10%, 10% 10%, 10% 10%, 10% 10%, 10% 10%;
+  -webkit-animation-duration: 10s;
+          animation-duration: 10s;
+}
+body .spinner:after {
+  background-image: var(--dot), var(--dot), var(--dot);
+  background-position: 50% 92.5%, 86.8060796608% 28.75%, 13.1939206638% 28.750001778%;
+  background-size: 15% 15%, 15% 15%, 15% 15%;
+  -webkit-animation-duration: 5s;
+          animation-duration: 5s;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

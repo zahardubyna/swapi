@@ -1,31 +1,28 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class PeopleUpdateDto {
-  @ApiProperty({ example: 0 })
-  id: number;
-
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'updated name' })
   name: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'updated height' })
   height: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'updated mass' })
   mass: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'updated hair_color' })
   hair_color: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'updated skin_color' })
   skin_color: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'updated eye_color' })
   eye_color: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'updated birth_year' })
   birth_year: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'updated gender' })
   gender: string;
 
   // @ApiProperty()
@@ -43,12 +40,16 @@ export class PeopleUpdateDto {
   // @Column()
   // starships: string[];
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'updated created_at' })
   created: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'updated edited_at' })
   edited: string;
 
-  // @ApiProperty()
-  // url: string;
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    isArray: true,
+  })
+  private readonly files;
 }

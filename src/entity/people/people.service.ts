@@ -1,39 +1,55 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PeopleEntity } from './peoplerEntity/people.entity';
+import { PeopleEntity } from './peopleEntity/people.entity';
 import { Repository } from 'typeorm';
 import { PeopleCreateDto } from './peopleDto/people.create.dto';
-import { PeopleDeleteDto } from './peopleDto/people.delete.dto';
+import { PeopleUpdateDto } from './peopleDto/people.update.dto';
+import { PeopleRelationDto } from './peopleDto/people.relation.dto';
+import { FileImagesService } from '../../file.services/images/images.service';
+import { plainToInstance } from 'class-transformer';
+import { createRelation } from '../relation/create.relation';
 
 @Injectable()
 export class PeopleService {
   constructor(
     @InjectRepository(PeopleEntity)
-    private peopleRepository: Repository<PeopleEntity>,
+    private readonly peopleRepository: Repository<PeopleEntity>,
+    private fileImagesService: FileImagesService,
   ) {}
-  getAllPeople() {
-    return this.peopleRepository.find();
+
+  async getPeople(skip, limit) {
+    return this.peopleRepository.find({ skip: skip, take: limit });
   }
 
-  createPeople(peopleDto: PeopleCreateDto) {
-    const newPeople: PeopleEntity = this.peopleRepository.create(peopleDto);
-
+  async createPeople(
+    peopleCreateDto: PeopleCreateDto,
+    files: Express.Multer.File[],
+  ) {
+    const newPeople = plainToInstance(PeopleEntity, peopleCreateDto);
+    newPeople.images = await this.fileImagesService.appendFiles(files);
     return this.peopleRepository.save(newPeople);
   }
 
-  async updatePeople(id: number, peopleDto: PeopleCreateDto) {
-    // return peopleDto;
+  async updatePeople(
+    peopleUpdateDto: PeopleUpdateDto,
+    files: Express.Multer.File[],
+    id: number,
+  ) {
     const updatedPeople = await this.peopleRepository.findOneBy({ id });
-
-    return this.peopleRepository.save({ ...updatedPeople, ...peopleDto });
+    const newPeople = plainToInstance(PeopleEntity, peopleUpdateDto);
+    await this.fileImagesService.deleteFiles(updatedPeople.images);
+    newPeople.images = await this.fileImagesService.appendFiles(files);
+    return this.peopleRepository.save({ ...updatedPeople, ...newPeople });
   }
 
-  async deletePeople(peopleDeleteDto: PeopleDeleteDto) {
-    console.log(peopleDeleteDto.id);
-    const deletedPeople = await this.peopleRepository.findOneBy({
-      id: peopleDeleteDto.id,
-    });
+  async deletePeople(id: number) {
+    const deletedPeople = await this.peopleRepository.findOneBy({ id });
+    const deletedInfo = await this.peopleRepository.remove(deletedPeople);
+    await this.fileImagesService.deleteFiles(deletedInfo.images);
+    return deletedInfo;
+  }
 
-    return this.peopleRepository.remove(deletedPeople);
+  async createRelationPeople(id: number, peopleRelationDto: PeopleRelationDto) {
+    await createRelation(id, peopleRelationDto, PeopleEntity);
   }
 }

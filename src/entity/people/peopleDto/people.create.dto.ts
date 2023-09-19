@@ -1,28 +1,28 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class PeopleCreateDto {
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'Luke Skywalker' })
   name: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: '172' })
   height: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: '77' })
   mass: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'blond' })
   hair_color: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'fair' })
   skin_color: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'blue' })
   eye_color: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: '19BBY' })
   birth_year: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: 'male' })
   gender: string;
 
   // @ApiProperty()
@@ -40,12 +40,16 @@ export class PeopleCreateDto {
   // @Column()
   // starships: string[];
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: '2014-12-09T13:50:51.644000Z' })
   created: string;
 
-  @ApiProperty({ example: 'test' })
+  @ApiProperty({ example: '2014-12-20T21:17:56.891000Z' })
   edited: string;
 
-  // @ApiProperty()
-  // url: string;
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    isArray: true,
+  })
+  private readonly files;
 }

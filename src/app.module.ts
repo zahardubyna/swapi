@@ -4,9 +4,6 @@ import { EntityModule } from './entity/entity.module';
 import dataSourceOptions from '../database/config';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(dataSourceOptions),
-    EntityModule,
-  ],
+  imports: [TypeOrmModule.forRoot(dataSourceOptions), EntityModule],
 })
 export class AppModule {}
