@@ -25,21 +25,6 @@ export class PeopleCreateDto {
   @ApiProperty({ example: 'male' })
   gender: string;
 
-  // @ApiProperty()
-  // homeworld: string;
-
-  // @Column()
-  // films: string[];
-  //
-  // @Column()
-  // species: string[];
-  //
-  // @Column()
-  // vehicles: string[];
-  //
-  // @Column()
-  // starships: string[];
-
   @ApiProperty({ example: '2014-12-09T13:50:51.644000Z' })
   created: string;
 

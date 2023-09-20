@@ -9,7 +9,9 @@ import {
 import { ImagesEntity } from '../../../file.services/images/imageEntity/images.entity';
 import { PlanetEntity } from '../../planets/planetEntity/planet.entity';
 import { FilmEntity } from '../../films/filmEntity/film.entity';
-import { StarshipEntity } from '../../starships/starshipsEntity/starship.entity';
+import { StarshipEntity } from '../../starships/starshipEntity/starship.entity';
+import { SpecieEntity } from '../../species/specieEntity/specie.entity';
+import { VehicleEntity } from '../../vehicles/vehicleEntity/vehicle.entity';
 
 @Entity({ name: 'people' })
 export class PeopleEntity {
@@ -50,19 +52,31 @@ export class PeopleEntity {
   @ManyToMany(() => FilmEntity, (film) => film.characters, {
     cascade: true,
     eager: true,
+    onDelete: 'CASCADE',
   })
   @JoinTable()
   films: FilmEntity[];
 
-  // @Column()
-  // species: string[];
-  //
-  // @Column()
-  // vehicles: string[];
-  //
+  @ManyToMany(() => SpecieEntity, (specie) => specie.people, {
+    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinTable()
+  species: SpecieEntity[];
+
+  @ManyToMany(() => VehicleEntity, (vehicle) => vehicle.pilots, {
+    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinTable()
+  vehicles: VehicleEntity[];
+
   @ManyToMany(() => StarshipEntity, (starship) => starship.pilots, {
     cascade: true,
     eager: true,
+    onDelete: 'CASCADE',
   })
   @JoinTable()
   starships: StarshipEntity[];

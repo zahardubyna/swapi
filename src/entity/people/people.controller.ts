@@ -18,7 +18,6 @@ import { PeopleRelationDto } from './peopleDto/people.relation.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiParam } from '@nestjs/swagger';
 
-
 @Controller('people')
 export class PeopleController {
   constructor(private readonly peopleServices: PeopleService) {}

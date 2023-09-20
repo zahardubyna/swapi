@@ -3,15 +3,16 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ImagesEntity } from '../../../file.services/images/imageEntity/images.entity';
 import { PeopleEntity } from '../../people/peopleEntity/people.entity';
 import { PlanetEntity } from '../../planets/planetEntity/planet.entity';
-import { StarshipEntity } from "../../starships/starshipsEntity/starship.entity";
+import { StarshipEntity } from '../../starships/starshipEntity/starship.entity';
+import { SpecieEntity } from '../../species/specieEntity/specie.entity';
+import { VehicleEntity } from '../../vehicles/vehicleEntity/vehicle.entity';
 
-@Entity({ name: 'film' })
+@Entity({ name: 'films' })
 export class FilmEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -46,14 +47,23 @@ export class FilmEntity {
   @JoinTable()
   planets: PlanetEntity[];
 
-  // starships
   @ManyToMany(() => StarshipEntity, (starship) => starship.films, {
     onDelete: 'CASCADE',
   })
   @JoinTable()
   starships: StarshipEntity[];
-  // vehicles
-  // species
+
+  @ManyToMany(() => VehicleEntity, (vehicle) => vehicle.films, {
+    onDelete: 'CASCADE',
+  })
+  @JoinTable()
+  vehicles: VehicleEntity[];
+
+  @ManyToMany(() => SpecieEntity, (specie) => specie.films, {
+    onDelete: 'CASCADE',
+  })
+  @JoinTable()
+  species: SpecieEntity[];
 
   @Column()
   created: string;

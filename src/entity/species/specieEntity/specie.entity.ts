@@ -3,15 +3,16 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ImagesEntity } from '../../../file.services/images/imageEntity/images.entity';
 import { PeopleEntity } from '../../people/peopleEntity/people.entity';
 import { FilmEntity } from '../../films/filmEntity/film.entity';
+import { PlanetEntity } from '../../planets/planetEntity/planet.entity';
 
-@Entity({ name: 'starship' })
-export class StarshipEntity {
+@Entity({ name: 'species' })
+export class SpecieEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -19,56 +20,48 @@ export class StarshipEntity {
   name: string;
 
   @Column()
-  model: string;
+  classification: string;
 
   @Column()
-  manufacturer: string;
+  designation: string;
 
   @Column()
-  cost_in_credits: string;
+  average_height: string;
 
   @Column()
-  length: string;
+  skin_colors: string;
 
   @Column()
-  max_atmosphering_speed: string;
+  hair_colors: string;
 
   @Column()
-  crew: string;
+  eye_colors: string;
 
   @Column()
-  passengers: string;
+  average_lifespan: string;
 
   @Column()
-  cargo_capacity: string;
+  language: string;
 
-  @Column()
-  consumables: string;
-
-  @Column()
-  hyperdrive_rating: string;
-
-  @Column()
-  MGLT: string;
-
-  @Column()
-  starship_class: string;
-
-  @ManyToMany(() => PeopleEntity, (people) => people.starships, {
-    onDelete: 'CASCADE',
-  })
-  @JoinTable()
-  pilots: PeopleEntity[];
-
-  @ManyToMany(() => FilmEntity, (film) => film.starships, {
-    cascade: true,
+  @ManyToOne(() => PlanetEntity, {
     eager: true,
   })
   @JoinTable()
-  films: FilmEntity[];
+  homeworld: PlanetEntity;
 
-  // vehicles
-  // species
+  @ManyToMany(() => PeopleEntity, (people) => people.species, {
+    onDelete: 'CASCADE',
+  })
+  @JoinTable()
+  people: PeopleEntity[];
+
+  @ManyToMany(() => FilmEntity, (film) => film.species, {
+    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinTable()
+  films: FilmEntity[];
 
   @Column()
   created: string;

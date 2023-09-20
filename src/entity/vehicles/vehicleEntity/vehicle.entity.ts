@@ -3,15 +3,14 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ImagesEntity } from '../../../file.services/images/imageEntity/images.entity';
 import { PeopleEntity } from '../../people/peopleEntity/people.entity';
 import { FilmEntity } from '../../films/filmEntity/film.entity';
 
-@Entity({ name: 'planets' })
-export class PlanetEntity {
+@Entity({ name: 'vehicles' })
+export class VehicleEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -19,34 +18,42 @@ export class PlanetEntity {
   name: string;
 
   @Column()
-  rotation_period: string;
+  model: string;
 
   @Column()
-  orbital_period: string;
+  manufacturer: string;
 
   @Column()
-  diameter: string;
+  cost_in_credits: string;
 
   @Column()
-  climate: string;
+  length: string;
 
   @Column()
-  gravity: string;
+  max_atmosphering_speed: string;
 
   @Column()
-  terrain: string;
+  crew: string;
 
   @Column()
-  surface_water: string;
+  passengers: string;
 
   @Column()
-  population: string;
+  cargo_capacity: string;
 
-  @OneToMany(() => PeopleEntity, (people) => people.homeworld)
+  @Column()
+  consumables: string;
+
+  @Column()
+  vehicle_class: string;
+
+  @ManyToMany(() => PeopleEntity, (people) => people.vehicles, {
+    onDelete: 'CASCADE',
+  })
   @JoinTable()
-  residents: PeopleEntity[];
+  pilots: PeopleEntity[];
 
-  @ManyToMany(() => FilmEntity, (film) => film.planets, {
+  @ManyToMany(() => FilmEntity, (film) => film.vehicles, {
     cascade: true,
     eager: true,
   })

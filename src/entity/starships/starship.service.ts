@@ -1,13 +1,13 @@
-import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
-import { StarshipEntity } from './starshipsEntity/starship.entity';
+import { StarshipEntity } from './starshipEntity/starship.entity';
 import { FileImagesService } from '../../file.services/images/images.service';
+import { StarshipCreateDto } from './starshipDto/starship.create.dto';
+import { StarshipUpdateDto } from './starshipDto/starship.update.dto';
+import { StarshipRelationDto } from './starshipDto/starship.relation.dto';
 import { createRelation } from '../relation/create.relation';
-import { StarshipCreateDto } from './starshipsDto/starship.create.dto';
-import { StarshipUpdateDto } from './starshipsDto/starship.update.dto';
-import { StarshipRelationDto } from './starshipsDto/starship.relation.dto';
 
 @Injectable()
 export class StarshipService {

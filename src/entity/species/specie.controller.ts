@@ -11,30 +11,30 @@ import {
   Param,
   ParseIntPipe,
 } from '@nestjs/common';
-import { StarshipService } from './starship.service';
-import { StarshipCreateDto } from './starshipDto/starship.create.dto';
-import { StarshipUpdateDto } from './starshipDto/starship.update.dto';
-import { StarshipRelationDto } from './starshipDto/starship.relation.dto';
+import { SpecieService } from './specie.service';
+import { SpecieCreateDto } from './specieDto/specie.create.dto';
+import { SpecieUpdateDto } from './specieDto/specie.update.dto';
+import { SpecieRelationDto } from './specieDto/specie.relation.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiParam } from '@nestjs/swagger';
 
-@Controller('starships')
-export class StarshipController {
-  constructor(private readonly starshipServices: StarshipService) {}
+@Controller('species')
+export class SpecieController {
+  constructor(private readonly specieService: SpecieService) {}
 
   @Get('get')
   getAll(@Query('skip') skip: number, @Query('limit') limit: number) {
-    return this.starshipServices.getStarships(skip, limit);
+    return this.specieService.getSpecies(skip, limit);
   }
 
   @Post('create')
   @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
   getCreate(
-    @Body() body: StarshipCreateDto,
+    @Body() body: SpecieCreateDto,
     @UploadedFiles() files: Express.Multer.File[],
   ) {
-    return this.starshipServices.createStarship(body, files);
+    return this.specieService.createSpecie(body, files);
   }
 
   @Put('update/:id')
@@ -43,23 +43,23 @@ export class StarshipController {
   @ApiParam({ name: 'id' })
   getUpdate(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: StarshipUpdateDto,
+    @Body() body: SpecieUpdateDto,
     @UploadedFiles() files: Express.Multer.File[],
   ) {
-    return this.starshipServices.updateStarship(body, files, id);
+    return this.specieService.updateSpecie(body, files, id);
   }
 
   @Delete('delete/:id')
   @ApiParam({ name: 'id' })
   getDelete(@Param('id', ParseIntPipe) id: number) {
-    return this.starshipServices.deleteStarship(id);
+    return this.specieService.deleteSpecie(id);
   }
 
   @Post('relation/:id')
   createRelationWith(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: StarshipRelationDto,
+    @Body() body: SpecieRelationDto,
   ) {
-    return this.starshipServices.createRelationStarship(id, body);
+    return this.specieService.createRelationSpecie(id, body);
   }
 }

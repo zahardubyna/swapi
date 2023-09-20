@@ -8,15 +8,15 @@ import {
   UseInterceptors,
   UploadedFiles,
   Query,
-  Param, ParseIntPipe
-} from "@nestjs/common";
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiParam } from '@nestjs/swagger';
 import { PlanetService } from './planet.service';
 import { PlanetCreateDto } from './planetDto/planet.create.dto';
 import { PlanetUpdateDto } from './planetDto/planet.update.dto';
 import { PlanetRelationDto } from './planetDto/planet.relation.dto';
-
 
 @Controller('planet')
 export class PlanetController {

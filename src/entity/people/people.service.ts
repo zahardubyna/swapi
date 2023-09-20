@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { PeopleEntity } from './peopleEntity/people.entity';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { plainToInstance } from 'class-transformer';
+import { PeopleEntity } from './peopleEntity/people.entity';
+import { FileImagesService } from '../../file.services/images/images.service';
 import { PeopleCreateDto } from './peopleDto/people.create.dto';
 import { PeopleUpdateDto } from './peopleDto/people.update.dto';
 import { PeopleRelationDto } from './peopleDto/people.relation.dto';
-import { FileImagesService } from '../../file.services/images/images.service';
-import { plainToInstance } from 'class-transformer';
 import { createRelation } from '../relation/create.relation';
 
 @Injectable()
