@@ -5,10 +5,18 @@ import { PlanetService } from './planet.service';
 import { PlanetController } from './planet.controller';
 import { FileImagesService } from '../../file.services/images/images.service';
 import { FileService } from '../../file.services/file/file.service';
+import { BucketService } from '../../file.services/bucket/bucket.service';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [TypeOrmModule.forFeature([PlanetEntity])],
   controllers: [PlanetController],
-  providers: [PlanetService, FileImagesService, FileService],
+  providers: [
+    PlanetService,
+    FileImagesService,
+    FileService,
+    BucketService,
+    ConfigService,
+  ],
 })
 export class PlanetModule {}

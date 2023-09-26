@@ -7,7 +7,7 @@ import { FileImagesService } from '../../file.services/images/images.service';
 import { StarshipCreateDto } from './starshipDto/starship.create.dto';
 import { StarshipUpdateDto } from './starshipDto/starship.update.dto';
 import { StarshipRelationDto } from './starshipDto/starship.relation.dto';
-import { createRelation } from '../relation/create.relation';
+import { createRelation } from '../../relation/create.relation';
 
 @Injectable()
 export class StarshipService {

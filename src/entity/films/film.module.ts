@@ -5,10 +5,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FilmEntity } from './filmEntity/film.entity';
 import { FileImagesService } from '../../file.services/images/images.service';
 import { FileService } from '../../file.services/file/file.service';
+import { BucketService } from '../../file.services/bucket/bucket.service';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [TypeOrmModule.forFeature([FilmEntity])],
   controllers: [FilmController],
-  providers: [FilmService, FileImagesService, FileService],
+  providers: [
+    FilmService,
+    FileImagesService,
+    FileService,
+    BucketService,
+    ConfigService,
+  ],
 })
 export class FilmModule {}

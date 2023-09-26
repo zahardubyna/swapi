@@ -7,7 +7,7 @@ import { FileImagesService } from '../../file.services/images/images.service';
 import { VehicleCreateDto } from "./vehicleDto/vehicle.create.dto";
 import { VehicleUpdateDto } from "./vehicleDto/vehicle.update.dto";
 import { VehicleRelationDto } from "./vehicleDto/vehicle.relation.dto";
-import { createRelation } from '../relation/create.relation';
+import { createRelation } from '../../relation/create.relation';
 import { StarshipRelationDto } from "../starships/starshipDto/starship.relation.dto";
 import { StarshipEntity } from "../starships/starshipEntity/starship.entity";
 

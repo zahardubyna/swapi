@@ -7,7 +7,7 @@ import { FileImagesService } from '../../file.services/images/images.service';
 import { FilmCreateDto } from './filmDto/film.create.dto';
 import { FilmUpdateDto } from './filmDto/film.update.dto';
 import { FilmRelationDto } from './filmDto/film.relation.dto';
-import { createRelation } from '../relation/create.relation';
+import { createRelation } from '../../relation/create.relation';
 
 @Injectable()
 export class FilmService {

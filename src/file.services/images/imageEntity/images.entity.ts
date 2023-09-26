@@ -10,4 +10,7 @@ export class ImagesEntity {
 
   @Column({ name: 'file_original_name' })
   file_original_name: string;
+
+  @Column({ type: 'longtext', name: 'aws_url' })
+  aws_url: string;
 }

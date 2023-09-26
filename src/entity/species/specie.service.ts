@@ -7,7 +7,7 @@ import { FileImagesService } from '../../file.services/images/images.service';
 import { SpecieCreateDto } from './specieDto/specie.create.dto';
 import { SpecieUpdateDto } from './specieDto/specie.update.dto';
 import { SpecieRelationDto } from './specieDto/specie.relation.dto';
-import { createRelation } from '../relation/create.relation';
+import { createRelation } from '../../relation/create.relation';
 
 @Injectable()
 export class SpecieService {

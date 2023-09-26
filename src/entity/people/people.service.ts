@@ -7,7 +7,7 @@ import { FileImagesService } from '../../file.services/images/images.service';
 import { PeopleCreateDto } from './peopleDto/people.create.dto';
 import { PeopleUpdateDto } from './peopleDto/people.update.dto';
 import { PeopleRelationDto } from './peopleDto/people.relation.dto';
-import { createRelation } from '../relation/create.relation';
+import { createRelation } from '../../relation/create.relation';
 
 @Injectable()
 export class PeopleService {

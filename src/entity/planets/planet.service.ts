@@ -7,7 +7,7 @@ import { FileImagesService } from '../../file.services/images/images.service';
 import { PlanetCreateDto } from './planetDto/planet.create.dto';
 import { PlanetUpdateDto } from './planetDto/planet.update.dto';
 import { PlanetRelationDto } from './planetDto/planet.relation.dto';
-import { createRelation } from '../relation/create.relation';
+import { createRelation } from '../../relation/create.relation';
 
 @Injectable()
 export class PlanetService {

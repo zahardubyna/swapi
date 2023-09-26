@@ -5,10 +5,18 @@ import { SpecieController } from './specie.controller';
 import { SpecieService } from './specie.service';
 import { FileImagesService } from '../../file.services/images/images.service';
 import { FileService } from '../../file.services/file/file.service';
+import { BucketService } from '../../file.services/bucket/bucket.service';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [TypeOrmModule.forFeature([SpecieEntity])],
   controllers: [SpecieController],
-  providers: [SpecieService, FileImagesService, FileService],
+  providers: [
+    SpecieService,
+    FileImagesService,
+    FileService,
+    BucketService,
+    ConfigService,
+  ],
 })
 export class SpecieModule {}
