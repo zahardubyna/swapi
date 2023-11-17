@@ -17,39 +17,43 @@ export class SpecieService {
     private fileImagesService: FileImagesService,
   ) {}
 
-  async getSpecies(skip, limit) {
+  async getFew(skip: number, limit: number) {
     return this.specieRepository.find({ skip: skip, take: limit });
   }
 
-  async createSpecie(
+  async getOne(limit: number) {
+    return this.specieRepository.find({ skip: limit - 1, take: 1 });
+  }
+
+  async create(
     speciesCreateDto: SpecieCreateDto,
     files: Express.Multer.File[],
   ) {
-    const newSpecies = plainToInstance(SpecieEntity, speciesCreateDto);
-    newSpecies.images = await this.fileImagesService.appendFiles(files);
-    return this.specieRepository.save(newSpecies);
+    const specie = plainToInstance(SpecieEntity, speciesCreateDto);
+    specie.images = await this.fileImagesService.appendFiles(files);
+    return this.specieRepository.save(specie);
   }
 
-  async updateSpecie(
+  async update(
     specieUpdateDto: SpecieUpdateDto,
     files: Express.Multer.File[],
     id: number,
   ) {
-    const updatedSpecie = await this.specieRepository.findOneBy({ id });
+    const specie = await this.specieRepository.findOneBy({ id });
     const newSpecie = plainToInstance(SpecieEntity, specieUpdateDto);
-    await this.fileImagesService.deleteFiles(updatedSpecie.images);
+    await this.fileImagesService.deleteFiles(specie.images);
     newSpecie.images = await this.fileImagesService.appendFiles(files);
-    return this.specieRepository.save({ ...updatedSpecie, ...newSpecie });
+    return this.specieRepository.save({ ...specie, ...newSpecie });
   }
 
-  async deleteSpecie(id: number) {
-    const deletedSpecie = await this.specieRepository.findOneBy({ id });
-    const deletedInfo = await this.specieRepository.remove(deletedSpecie);
-    await this.fileImagesService.deleteFiles(deletedInfo.images);
-    return deletedInfo;
+  async delete(id: number) {
+    const specie = await this.specieRepository.findOneBy({ id });
+    const info = await this.specieRepository.remove(specie);
+    await this.fileImagesService.deleteFiles(info.images);
+    return info;
   }
 
-  async createRelationSpecie(id: number, specieRelationDto: SpecieRelationDto) {
+  async createRelationWith(id: number, specieRelationDto: SpecieRelationDto) {
     await createRelation(id, specieRelationDto, SpecieEntity);
   }
 }

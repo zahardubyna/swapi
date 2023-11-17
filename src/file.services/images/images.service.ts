@@ -19,9 +19,9 @@ export class FileImagesService {
     await Promise.all(
       files.map(async (file) => {
         const name = uuidv4();
-        file.mimetype = file.originalname.match(/\.(jpg|jpag|png)$/)[0];
+        file.mimetype = file.originalname.match(/\.(jpg|jpeg|png)$/)[0];
         const fullName = name + file.mimetype;
-        const aws_url = await this.bucketServices.appendFileToBucked(
+        const aws_url = await this.bucketServices.appendFileToBucket(
           name,
           file.buffer,
           file.mimetype,

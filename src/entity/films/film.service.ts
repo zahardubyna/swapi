@@ -17,36 +17,40 @@ export class FilmService {
     private fileImagesService: FileImagesService,
   ) {}
 
-  async getFilms(skip, limit) {
+  async getFew(skip: number, limit: number) {
     return this.filmRepository.find({ skip: skip, take: limit });
   }
 
-  async createFilm(filmCreateDto: FilmCreateDto, files: Express.Multer.File[]) {
-    const newFilm = plainToInstance(FilmEntity, filmCreateDto);
-    newFilm.images = await this.fileImagesService.appendFiles(files);
-    return this.filmRepository.save(newFilm);
+  async getOne(limit: number) {
+    return this.filmRepository.find({ skip: limit - 1, take: 1 });
   }
 
-  async updateFilm(
+  async create(filmCreateDto: FilmCreateDto, files: Express.Multer.File[]) {
+    const film = plainToInstance(FilmEntity, filmCreateDto);
+    film.images = await this.fileImagesService.appendFiles(files);
+    return this.filmRepository.save(film);
+  }
+
+  async update(
     filmUpdateDto: FilmUpdateDto,
     files: Express.Multer.File[],
     id: number,
   ) {
-    const updatedFilm = await this.filmRepository.findOneBy({ id });
+    const film = await this.filmRepository.findOneBy({ id });
     const newFilm = plainToInstance(FilmEntity, filmUpdateDto);
-    await this.fileImagesService.deleteFiles(updatedFilm.images);
+    await this.fileImagesService.deleteFiles(film.images);
     newFilm.images = await this.fileImagesService.appendFiles(files);
-    return this.filmRepository.save({ ...updatedFilm, ...newFilm });
+    return this.filmRepository.save({ ...film, ...newFilm });
   }
 
-  async deleteFilm(id: number) {
-    const deletedFilm = await this.filmRepository.findOneBy({ id });
-    const deletedInfo = await this.filmRepository.remove(deletedFilm);
-    await this.fileImagesService.deleteFiles(deletedInfo.images);
-    return deletedInfo;
+  async delete(id: number) {
+    const film = await this.filmRepository.findOneBy({ id });
+    const info: FilmEntity = await this.filmRepository.remove(film);
+    await this.fileImagesService.deleteFiles(info.images);
+    return film;
   }
 
-  async createRelationFilm(id: number, filmRelationDto: FilmRelationDto) {
+  async createRelationWith(id: number, filmRelationDto: FilmRelationDto) {
     await createRelation(id, filmRelationDto, FilmEntity);
   }
 }

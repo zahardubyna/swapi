@@ -7,6 +7,7 @@ import { FileImagesService } from '../../file.services/images/images.service';
 import { FileService } from '../../file.services/file/file.service';
 import { BucketService } from '../../file.services/bucket/bucket.service';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [TypeOrmModule.forFeature([PlanetEntity])],
@@ -17,6 +18,7 @@ import { ConfigService } from '@nestjs/config';
     FileService,
     BucketService,
     ConfigService,
+    JwtService,
   ],
 })
 export class PlanetModule {}

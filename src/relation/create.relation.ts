@@ -32,7 +32,6 @@ export async function createRelation(id: number, dto, entity) {
       );
     }),
   ).then(async () => {
-    console.log(relationEntity);
     return await dataSource.manager.save(relationEntity);
   });
 }

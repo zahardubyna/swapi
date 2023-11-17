@@ -28,7 +28,7 @@ export class BucketService {
     });
   }
 
-  async appendFileToBucked(name: string, buffer: Buffer, mimetype: string) {
+  async appendFileToBucket(name: string, buffer: Buffer, mimetype: string) {
     const params = {
       Bucket: this.bucketName,
       Key: name,

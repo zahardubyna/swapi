@@ -17,39 +17,40 @@ export class PlanetService {
     private fileImagesService: FileImagesService,
   ) {}
 
-  async getPlanets(skip, limit) {
+  async getFew(skip: number, limit: number) {
     return this.planetRepository.find({ skip: skip, take: limit });
   }
 
-  async createPlanet(
-    planetCreateDto: PlanetCreateDto,
-    files: Express.Multer.File[],
-  ) {
-    const newPlanet = plainToInstance(PlanetEntity, planetCreateDto);
-    newPlanet.images = await this.fileImagesService.appendFiles(files);
-    return this.planetRepository.save(newPlanet);
+  async getOne(limit: number) {
+    return this.planetRepository.find({ skip: limit - 1, take: 1 });
   }
 
-  async updatePlanet(
+  async create(planetCreateDto: PlanetCreateDto, files: Express.Multer.File[]) {
+    const planet = plainToInstance(PlanetEntity, planetCreateDto);
+    planet.images = await this.fileImagesService.appendFiles(files);
+    return this.planetRepository.save(planet);
+  }
+
+  async update(
     planetUpdateDto: PlanetUpdateDto,
     files: Express.Multer.File[],
     id: number,
   ) {
-    const updatedPlanet = await this.planetRepository.findOneBy({ id });
+    const planet = await this.planetRepository.findOneBy({ id });
     const newPlanet = plainToInstance(PlanetEntity, planetUpdateDto);
-    await this.fileImagesService.deleteFiles(updatedPlanet.images);
+    await this.fileImagesService.deleteFiles(planet.images);
     newPlanet.images = await this.fileImagesService.appendFiles(files);
-    return this.planetRepository.save({ ...updatedPlanet, ...newPlanet });
+    return this.planetRepository.save({ ...planet, ...newPlanet });
   }
 
-  async deletePlanet(id: number) {
-    const deletedPlanet = await this.planetRepository.findOneBy({ id });
-    const deletedInfo = await this.planetRepository.remove(deletedPlanet);
-    await this.fileImagesService.deleteFiles(deletedInfo.images);
-    return deletedInfo;
+  async delete(id: number) {
+    const planet = await this.planetRepository.findOneBy({ id });
+    const info: PlanetEntity = await this.planetRepository.remove(planet);
+    await this.fileImagesService.deleteFiles(info.images);
+    return info;
   }
 
-  async createRelationPlanet(id: number, planetRelationDto: PlanetRelationDto) {
+  async createRelationWith(id: number, planetRelationDto: PlanetRelationDto) {
     await createRelation(id, planetRelationDto, PlanetEntity);
   }
 }

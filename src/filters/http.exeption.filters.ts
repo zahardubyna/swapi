@@ -12,7 +12,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    const res: any = exception.getResponse();
+    const res = exception.getResponse();
     const status = exception.getStatus();
 
     response.status(status).json({

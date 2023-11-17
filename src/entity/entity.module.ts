@@ -4,16 +4,18 @@ import { PlanetModule } from './planets/planet.module';
 import { FilmModule } from './films/film.module';
 import { StarshipModule } from './starships/starship.module';
 import { SpecieModule } from './species/specie.module';
-import { VehiclesModule } from './vehicles/vehicles.module';
+import { VehicleModule } from './vehicles/vehicle.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     PeopleModule,
-    PlanetModule,
     FilmModule,
+    PlanetModule,
     StarshipModule,
     SpecieModule,
-    VehiclesModule,
+    VehicleModule,
+    ConfigModule,
   ],
 })
 export class EntityModule {}

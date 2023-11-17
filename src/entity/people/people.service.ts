@@ -17,39 +17,40 @@ export class PeopleService {
     private fileImagesService: FileImagesService,
   ) {}
 
-  async getPeople(skip, limit) {
+  async getFew(skip: number, limit: number) {
     return this.peopleRepository.find({ skip: skip, take: limit });
   }
 
-  async createPeople(
-    peopleCreateDto: PeopleCreateDto,
-    files: Express.Multer.File[],
-  ) {
-    const newPeople = plainToInstance(PeopleEntity, peopleCreateDto);
-    newPeople.images = await this.fileImagesService.appendFiles(files);
-    return this.peopleRepository.save(newPeople);
+  async getOne(limit: number) {
+    return this.peopleRepository.find({ skip: limit - 1, take: 1 });
   }
 
-  async updatePeople(
+  async create(peopleCreateDto: PeopleCreateDto, files: Express.Multer.File[]) {
+    const person = plainToInstance(PeopleEntity, peopleCreateDto);
+    person.images = await this.fileImagesService.appendFiles(files);
+    return this.peopleRepository.save(person);
+  }
+
+  async update(
     peopleUpdateDto: PeopleUpdateDto,
     files: Express.Multer.File[],
     id: number,
   ) {
-    const updatedPeople = await this.peopleRepository.findOneBy({ id });
-    const newPeople = plainToInstance(PeopleEntity, peopleUpdateDto);
-    await this.fileImagesService.deleteFiles(updatedPeople.images);
-    newPeople.images = await this.fileImagesService.appendFiles(files);
-    return this.peopleRepository.save({ ...updatedPeople, ...newPeople });
+    const person = await this.peopleRepository.findOneBy({ id });
+    const newPerson = plainToInstance(PeopleEntity, peopleUpdateDto);
+    await this.fileImagesService.deleteFiles(person.images);
+    newPerson.images = await this.fileImagesService.appendFiles(files);
+    return this.peopleRepository.save({ ...person, ...newPerson });
   }
 
-  async deletePeople(id: number) {
-    const deletedPeople = await this.peopleRepository.findOneBy({ id });
-    const deletedInfo = await this.peopleRepository.remove(deletedPeople);
-    await this.fileImagesService.deleteFiles(deletedInfo.images);
-    return deletedInfo;
+  async delete(id: number) {
+    const person = await this.peopleRepository.findOneBy({ id });
+    const info: PeopleEntity = await this.peopleRepository.remove(person);
+    await this.fileImagesService.deleteFiles(info.images);
+    return info;
   }
 
-  async createRelationPeople(id: number, peopleRelationDto: PeopleRelationDto) {
+  async createRelationWith(id: number, peopleRelationDto: PeopleRelationDto) {
     await createRelation(id, peopleRelationDto, PeopleEntity);
   }
 }

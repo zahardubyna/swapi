@@ -10,61 +10,83 @@ import {
   Query,
   Param,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
-import { VehicleService } from "./vehicle.service";
-import { VehicleCreateDto } from "./vehicleDto/vehicle.create.dto";
-import { VehicleUpdateDto } from "./vehicleDto/vehicle.update.dto";
-import { VehicleRelationDto } from "./vehicleDto/vehicle.relation.dto";
+import { VehicleService } from './vehicle.service';
+import { VehicleCreateDto } from './vehicleDto/vehicle.create.dto';
+import { VehicleUpdateDto } from './vehicleDto/vehicle.update.dto';
+import { VehicleRelationDto } from './vehicleDto/vehicle.relation.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes, ApiParam } from '@nestjs/swagger';
-import { StarshipService } from "../starships/starship.service";
-import { StarshipCreateDto } from "../starships/starshipDto/starship.create.dto";
-import { StarshipUpdateDto } from "../starships/starshipDto/starship.update.dto";
-import { StarshipRelationDto } from "../starships/starshipDto/starship.relation.dto";
+import { ApiBearerAuth, ApiConsumes, ApiParam, ApiTags } from '@nestjs/swagger';
+import { JwtGuard } from '../../auth/guards/jwt-guard';
+import { RolesGuard } from '../../auth/guards/roles-guard';
+import { Role, Roles } from '../../decorators/roles.decorator';
 
+@ApiTags('Vehicles')
+@UseGuards(JwtGuard, RolesGuard)
 @Controller('vehicles')
 export class VehicleController {
   constructor(private readonly vehicleServices: VehicleService) {}
 
+  @ApiBearerAuth()
   @Get('get')
-  getAll(@Query('skip') skip: number, @Query('limit') limit: number) {
-    return this.vehicleServices.getVehicles(skip, limit);
+  @Roles(Role.User, Role.Admin)
+  getFew(
+    @Query('skip', ParseIntPipe) skip: number,
+    @Query('limit', ParseIntPipe) limit: number,
+  ) {
+    return this.vehicleServices.getFew(skip, limit);
   }
 
+  @ApiBearerAuth()
+  @Get('get/:id')
+  @Roles(Role.User, Role.Admin)
+  @ApiParam({ name: 'id' })
+  getOne(@Param('id', ParseIntPipe) id: number) {
+    return this.vehicleServices.getOne(id);
+  }
+
+  @ApiBearerAuth()
   @Post('create')
+  @Roles(Role.Admin)
   @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
-  getCreate(
+  create(
     @Body() body: VehicleCreateDto,
     @UploadedFiles() files: Express.Multer.File[],
   ) {
-    return this.vehicleServices.createVehicle(body, files);
+    return this.vehicleServices.create(body, files);
   }
 
+  @ApiBearerAuth()
   @Put('update/:id')
+  @Roles(Role.Admin)
   @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
   @ApiParam({ name: 'id' })
-  getUpdate(
+  update(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: VehicleUpdateDto,
     @UploadedFiles() files: Express.Multer.File[],
   ) {
-    return this.vehicleServices.updateVehicle(body, files, id);
+    return this.vehicleServices.update(body, files, id);
   }
 
+  @ApiBearerAuth()
   @Delete('delete/:id')
+  @Roles(Role.Admin)
   @ApiParam({ name: 'id' })
-  getDelete(@Param('id', ParseIntPipe) id: number) {
-    return this.vehicleServices.deleteVehicle(id);
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.vehicleServices.delete(id);
   }
 
+  @ApiBearerAuth()
   @Post('relation/:id')
+  @Roles(Role.Admin)
   createRelationWith(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: VehicleRelationDto,
   ) {
-    console.log(body);
-    return this.vehicleServices.createRelationVehicle(id, body);
+    return this.vehicleServices.createRelationWith(id, body);
   }
 }

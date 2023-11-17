@@ -17,39 +17,43 @@ export class StarshipService {
     private fileImagesService: FileImagesService,
   ) {}
 
-  async getStarships(skip, limit) {
+  async getFew(skip: number, limit: number) {
     return this.starshipRepository.find({ skip: skip, take: limit });
   }
 
-  async createStarship(
+  async getOne(limit: number) {
+    return this.starshipRepository.find({ skip: limit - 1, take: 1 });
+  }
+
+  async create(
     starshipCreateDto: StarshipCreateDto,
     files: Express.Multer.File[],
   ) {
-    const newStarship = plainToInstance(StarshipEntity, starshipCreateDto);
-    newStarship.images = await this.fileImagesService.appendFiles(files);
-    return this.starshipRepository.save(newStarship);
+    const starship = plainToInstance(StarshipEntity, starshipCreateDto);
+    starship.images = await this.fileImagesService.appendFiles(files);
+    return this.starshipRepository.save(starship);
   }
 
-  async updateStarship(
+  async update(
     starshipUpdateDto: StarshipUpdateDto,
     files: Express.Multer.File[],
     id: number,
   ) {
-    const updatedStarship = await this.starshipRepository.findOneBy({ id });
+    const starship = await this.starshipRepository.findOneBy({ id });
     const newStarship = plainToInstance(StarshipEntity, starshipUpdateDto);
-    await this.fileImagesService.deleteFiles(updatedStarship.images);
+    await this.fileImagesService.deleteFiles(starship.images);
     newStarship.images = await this.fileImagesService.appendFiles(files);
-    return this.starshipRepository.save({ ...updatedStarship, ...newStarship });
+    return this.starshipRepository.save({ ...starship, ...newStarship });
   }
 
-  async deleteStarship(id: number) {
-    const deletedStarship = await this.starshipRepository.findOneBy({ id });
-    const deletedInfo = await this.starshipRepository.remove(deletedStarship);
-    await this.fileImagesService.deleteFiles(deletedInfo.images);
-    return deletedInfo;
+  async delete(id: number) {
+    const starship = await this.starshipRepository.findOneBy({ id });
+    const info = await this.starshipRepository.remove(starship);
+    await this.fileImagesService.deleteFiles(info.images);
+    return info;
   }
 
-  async createRelationStarship(
+  async createRelationWith(
     id: number,
     starshipRelationDto: StarshipRelationDto,
   ) {
