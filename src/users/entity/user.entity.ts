@@ -14,4 +14,7 @@ export class UserEntity {
 
   @Column({ default: Role.User })
   role: string;
+
+  @Column({ default: null })
+  refresh_token: string;
 }

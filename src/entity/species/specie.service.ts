@@ -21,8 +21,8 @@ export class SpecieService {
     return this.specieRepository.find({ skip: skip, take: limit });
   }
 
-  async getOne(limit: number) {
-    return this.specieRepository.find({ skip: limit - 1, take: 1 });
+  async getOne(id: number) {
+    return this.specieRepository.findOne({ where: { id } });
   }
 
   async create(

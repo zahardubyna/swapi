@@ -21,8 +21,8 @@ export class StarshipService {
     return this.starshipRepository.find({ skip: skip, take: limit });
   }
 
-  async getOne(limit: number) {
-    return this.starshipRepository.find({ skip: limit - 1, take: 1 });
+  async getOne(id: number) {
+    return this.starshipRepository.findOne({ where: { id } });
   }
 
   async create(

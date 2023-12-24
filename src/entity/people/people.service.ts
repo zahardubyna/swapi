@@ -21,8 +21,8 @@ export class PeopleService {
     return this.peopleRepository.find({ skip: skip, take: limit });
   }
 
-  async getOne(limit: number) {
-    return this.peopleRepository.find({ skip: limit - 1, take: 1 });
+  async getOne(id: number) {
+    return this.peopleRepository.findOne({ where: { id } });
   }
 
   async create(peopleCreateDto: PeopleCreateDto, files: Express.Multer.File[]) {

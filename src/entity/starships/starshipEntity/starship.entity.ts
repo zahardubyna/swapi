@@ -56,18 +56,15 @@ export class StarshipEntity {
   @ManyToMany(() => PeopleEntity, (people) => people.starships, {
     onDelete: 'CASCADE',
   })
-  @JoinTable()
   pilots: PeopleEntity[];
 
   @ManyToMany(() => FilmEntity, (film) => film.starships, {
     cascade: true,
     eager: true,
+    onDelete: 'CASCADE',
   })
   @JoinTable()
   films: FilmEntity[];
-
-  // vehicles
-  // species
 
   @Column()
   created: string;

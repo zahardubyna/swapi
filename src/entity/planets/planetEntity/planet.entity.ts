@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
@@ -49,6 +50,7 @@ export class PlanetEntity {
   @ManyToMany(() => FilmEntity, (film) => film.planets, {
     cascade: true,
     eager: true,
+    onDelete: 'CASCADE',
   })
   @JoinTable()
   films: FilmEntity[];

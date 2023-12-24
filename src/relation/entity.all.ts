@@ -22,3 +22,30 @@ export const EntityAll = {
 
   vehicles: VehicleEntity,
 };
+
+export const entities: {
+  people: 'people';
+
+  films: 'films';
+
+  planets: 'planets';
+
+  species: 'species';
+
+  starships: 'starships';
+
+  vehicles: 'vehicles';
+} = {
+  people: 'people',
+
+  films: 'films',
+
+  planets: 'planets',
+
+  species: 'species',
+
+  starships: 'starships',
+
+  vehicles: 'vehicles',
+};
+// console.log(EntityAll);

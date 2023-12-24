@@ -46,13 +46,11 @@ export class SpecieEntity {
   @ManyToOne(() => PlanetEntity, {
     eager: true,
   })
-  @JoinTable()
   homeworld: PlanetEntity;
 
   @ManyToMany(() => PeopleEntity, (people) => people.species, {
     onDelete: 'CASCADE',
   })
-  @JoinTable()
   people: PeopleEntity[];
 
   @ManyToMany(() => FilmEntity, (film) => film.species, {

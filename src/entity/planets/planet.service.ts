@@ -21,8 +21,8 @@ export class PlanetService {
     return this.planetRepository.find({ skip: skip, take: limit });
   }
 
-  async getOne(limit: number) {
-    return this.planetRepository.find({ skip: limit - 1, take: 1 });
+  async getOne(id: number) {
+    return this.planetRepository.findOne({ where: { id } });
   }
 
   async create(planetCreateDto: PlanetCreateDto, files: Express.Multer.File[]) {

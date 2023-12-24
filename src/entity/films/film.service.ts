@@ -21,8 +21,8 @@ export class FilmService {
     return this.filmRepository.find({ skip: skip, take: limit });
   }
 
-  async getOne(limit: number) {
-    return this.filmRepository.find({ skip: limit - 1, take: 1 });
+  async getOne(id: number) {
+    return this.filmRepository.findOne({ where: { id } });
   }
 
   async create(filmCreateDto: FilmCreateDto, files: Express.Multer.File[]) {

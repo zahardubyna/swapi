@@ -23,7 +23,7 @@ export class FilmEntity {
   @Column()
   episode_id: string;
 
-  @Column()
+  @Column({ type: 'longtext' })
   opening_crawl: string;
 
   @Column()
@@ -38,31 +38,26 @@ export class FilmEntity {
   @ManyToMany(() => PeopleEntity, (people) => people.films, {
     onDelete: 'CASCADE',
   })
-  @JoinTable()
   characters: PeopleEntity[];
 
   @ManyToMany(() => PlanetEntity, (planet) => planet.films, {
     onDelete: 'CASCADE',
   })
-  @JoinTable()
   planets: PlanetEntity[];
 
   @ManyToMany(() => StarshipEntity, (starship) => starship.films, {
     onDelete: 'CASCADE',
   })
-  @JoinTable()
   starships: StarshipEntity[];
 
   @ManyToMany(() => VehicleEntity, (vehicle) => vehicle.films, {
     onDelete: 'CASCADE',
   })
-  @JoinTable()
   vehicles: VehicleEntity[];
 
   @ManyToMany(() => SpecieEntity, (specie) => specie.films, {
     onDelete: 'CASCADE',
   })
-  @JoinTable()
   species: SpecieEntity[];
 
   @Column()

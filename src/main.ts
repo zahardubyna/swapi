@@ -9,7 +9,7 @@ import 'dotenv/config';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
-  app.useGlobalFilters(new EntityNotFoundExceptionFilter());
+  // app.useGlobalFilters(new EntityNotFoundExceptionFilter());
   app.useGlobalFilters(new HttpExceptionFilter());
 
   const config = new DocumentBuilder()

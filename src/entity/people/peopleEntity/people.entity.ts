@@ -46,7 +46,6 @@ export class PeopleEntity {
     cascade: true,
     eager: true,
   })
-  @JoinTable()
   homeworld: PlanetEntity;
 
   @ManyToMany(() => FilmEntity, (film) => film.characters, {
