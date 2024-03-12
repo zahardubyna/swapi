@@ -240,3 +240,5 @@ Temporary Items
 /database/migration/*
 
 /public/images/*
+
+.idea

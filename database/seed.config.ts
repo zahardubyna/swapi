@@ -15,8 +15,6 @@ const seedConfig = {
     charset: 'utf8mb4_general_ci',
   },
   synchronize: false,
-  // logging: true,
 };
-// console.log(seedConfig);
 
 export default seedConfig;

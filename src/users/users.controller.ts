@@ -49,25 +49,4 @@ export class UsersController {
   getOneByUsername(@Param('username', ParseIntPipe) username: string) {
     return this.usersService.getOneByUsername(username);
   }
-
-  // @ApiBearerAuth()
-  // @Post('create')
-  // @Roles(Role.Admin)
-  // getCreate(@Body() body: PeopleCreateDto) {
-  //   return this.usersService.create();
-  // }
-  //
-  // @ApiBearerAuth()
-  // @Put('update/:id')
-  // @Roles(Role.Admin)
-  // @UseInterceptors(FilesInterceptor('files'))
-  // @ApiConsumes('multipart/form-data')
-  // @ApiParam({ name: 'id' })
-  // getUpdate(
-  //   @Param('id', ParseIntPipe) id: number,
-  //   @Body() body: PeopleUpdateDto,
-  //   @UploadedFiles() files: Express.Multer.File[],
-  // ) {
-  //   return this.peopleServices.updatePeople(body, files, id);
-  // }
 }

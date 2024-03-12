@@ -31,6 +31,9 @@ export class FileImagesService {
           file_original_name: file.originalname,
           aws_url,
         };
+        console.log(ImagesEntity);
+        console.log(resFile);
+        console.log(plainToClassFromExist(new ImagesEntity(), resFile));
         resFiles.push(plainToClassFromExist(new ImagesEntity(), resFile));
         await this.fileServices.appendFileToPublic(fullName, file.buffer);
       }),
