@@ -41,7 +41,7 @@ export class SeedService {
 
   public async getData() {
     for (const essence in entities) {
-      const swapiUrl = 'https://swapi.dev/api/';
+      const swapiUrl = 'https://swapi-api.hbtn.io/api/';
       const entity = entities[essence];
       let url = swapiUrl + entity;
       for (; url; ) {
