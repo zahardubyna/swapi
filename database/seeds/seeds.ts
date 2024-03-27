@@ -1,17 +1,17 @@
-import { Factory, Seeder } from 'typeorm-seeding';
-import { Connection } from 'typeorm';
+import { Seeder } from '@jorgebodega/typeorm-seeding';
+import { Connection, DataSource } from 'typeorm';
 import { SeedService } from '../seed.service';
 import { EntityAll } from '../../src/relation/entity.all';
 import * as _ from 'lodash';
 
 export class Seeds implements Seeder {
-  public async run(factory: Factory, connection: Connection): Promise<void> {
+  public async run(dataSource: DataSource): Promise<void> {
     const seedService = new SeedService();
 
     await seedService.getData();
 
     for (const entity in seedService.data) {
-      await connection.manager.save(
+      await dataSource.manager.save(
         EntityAll[entity],
         seedService.data[entity],
       );
@@ -53,7 +53,7 @@ export class Seeds implements Seeder {
               }
             }
           }
-          await connection.manager.save(
+          await dataSource.manager.save(
             EntityAll[entityName],
             seedService.data[entityName][index],
           );

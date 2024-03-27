@@ -23,8 +23,8 @@
     "migration:run": "npm run typeorm -- migration:run",
     "migration:revert": "npm run typeorm -- migration:revert",
     "re-migrate": "npm run migration:revert && rm database/migration/* && npm run migration:generate && npm run migration:run",
-    "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config -n database/seed.config.ts",
-    "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed -n database/seed.config.ts"
+    "seed:config": "ts-node ./node_modules/@jorgebodega/typeorm-seeding/dist/cli.js config -n database/seed.config.ts",
+    "seed:run": "node_modules/.bin/ts-node --project ./tsconfig.json -r tsconfig-paths/register ./node_modules/@jorgebodega/typeorm-seeding/dist/cli.js seed -d database/datasource.config.ts database/seeds/*.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.417.0",
@@ -56,10 +56,10 @@
     "rxjs": "^7.8.1",
     "secrets": "^1.1.5",
     "typeorm": "^0.3.17",
-    "typeorm-seeding": "^1.6.1",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@jorgebodega/typeorm-seeding": "^7.0.0",
     "@nestjs/cli": "^10.2.1",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
