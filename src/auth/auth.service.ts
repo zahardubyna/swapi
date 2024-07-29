@@ -3,6 +3,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { Response, Request } from 'express';
 import { UsersService } from '../users/users.service';
 import { UserEntity } from '../users/entity/user.entity';
 import { JwtService } from '@nestjs/jwt';
@@ -12,11 +13,14 @@ import { compareStrWithHash } from '../bcrypt/bcrypt';
 import { ConfigService } from '@nestjs/config';
 import dataSource from '../../database/datasource.config';
 import { IsNull, Not } from 'typeorm';
+import ms from 'ms';
 
 @Injectable()
 export class AuthService {
   private readonly access_jwt_secret: string;
   private readonly refresh_jwt_secret: string;
+  private readonly access_jwt_expires: string;
+  private readonly refresh_jwt_expires: string;
   private readonly salt_round: number;
 
   constructor(
@@ -28,6 +32,11 @@ export class AuthService {
       this.configService.get<string>('ACCESS_JWT_SECRET');
     this.refresh_jwt_secret =
       this.configService.get<string>('REFRESH_JWT_SECRET');
+    this.access_jwt_expires =
+      this.configService.get<string>('ACCESS_JWT_EXPIRES');
+    this.refresh_jwt_expires = this.configService.get<string>(
+      'REFRESH_JWT_EXPIRES',
+    );
     this.salt_round = +this.configService.get<string>('SECRET_SALT_ROUNDS');
   }
 
@@ -64,9 +73,13 @@ export class AuthService {
     const user = await dataSource.manager.findOne(UserEntity, {
       where: { id: userId, refresh_token: Not(IsNull()) },
     });
-    const userWithRt = user;
-    userWithRt.refresh_token = null;
-    await dataSource.manager.save(UserEntity, { ...user, ...userWithRt });
+    if (user) {
+      const userWithRt = user;
+      userWithRt.refresh_token = null;
+      await dataSource.manager.save(UserEntity, { ...user, ...userWithRt });
+    } else {
+      throw new ForbiddenException('Access Denied');
+    }
   }
 
   async refreshTokens(refreshToken: string) {
@@ -117,5 +130,29 @@ export class AuthService {
     const userWithRt = user;
     userWithRt.refresh_token = refreshToken;
     await dataSource.manager.save(UserEntity, { ...user, ...userWithRt });
+  }
+
+  async saveCookie(
+    res: Response,
+    tokens: { access_token: string; refresh_token: string },
+  ) {
+    res.cookie('refresh_token', tokens.refresh_token, {
+      expires: new Date(Date.now() + ms(this.refresh_jwt_expires)),
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    });
+  }
+
+  async deleteCookie(res: Response) {
+    res.cookie(
+      'refresh_token',
+      {},
+      {
+        expires: new Date(),
+        sameSite: true,
+        httpOnly: true,
+      },
+    );
   }
 }

@@ -26,7 +26,6 @@ export class Seeds implements Seeder {
               for await (const url of Array.isArray(entity[parameter])
                 ? entity[parameter]
                 : [entity[parameter]]) {
-                // '_'
                 seedService.data[entityName][index][parameter] ||= [];
 
                 const { relationEntityName, relationId } =

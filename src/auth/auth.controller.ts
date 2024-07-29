@@ -7,9 +7,11 @@ import {
   Post,
   Query,
   Req,
+  Res,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
+import { Response, Request } from 'express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -17,7 +19,8 @@ import { RegisterDto } from './dto/register.dto';
 import { JwtGuard } from './guards/jwt-guard';
 import { GetUserFromRequest } from '../decorators/user.decorator';
 import { RefreshTokenDto } from './dto/refresh.token.dto';
-import { Request } from 'express';
+import { assignWith } from 'lodash';
+
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
@@ -25,27 +28,45 @@ export class AuthController {
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
-  register(@Body() dto: RegisterDto) {
+  async register(@Body() dto: RegisterDto) {
     return this.authServices.register(dto);
   }
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  login(@Body() dto: LoginDto) {
-    return this.authServices.login(dto);
+  async login(
+    @Body() dto: LoginDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const tokens = await this.authServices.login(dto);
+    await this.authServices.saveCookie(response, tokens);
+    return tokens;
   }
 
   @ApiBearerAuth()
   @UseGuards(JwtGuard)
   @Post('logout')
   @HttpCode(HttpStatus.OK)
-  logout(@GetUserFromRequest() { sub }) {
+  async logout(
+    @GetUserFromRequest() { sub },
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    await this.authServices.deleteCookie(response);
     return this.authServices.logout(sub);
   }
 
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  refreshTokens(@Body() dto: RefreshTokenDto) {
-    return this.authServices.refreshTokens(dto.refreshToken);
+  async refreshTokens(
+    @Req() req: Request,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const tokens = await this.authServices.refreshTokens(
+      req.cookies.refresh_token,
+    );
+
+    await this.authServices.saveCookie(response, tokens);
+
+    return tokens;
   }
 }

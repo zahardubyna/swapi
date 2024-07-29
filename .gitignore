@@ -241,4 +241,6 @@ Temporary Items
 
 /public/images/*
 
-.idea
+.idea/codeStyles/*
+.idea/codeStyles/
+.idea/
