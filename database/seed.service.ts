@@ -2,7 +2,7 @@ import axios from 'axios';
 import { entities, EntityAll } from '../src/relation/entity.all';
 import { plainToInstance } from 'class-transformer';
 import * as _ from 'lodash';
-// import { DataInterface, DataWithRelationsInterface } from './interfaces';
+
 export class SeedService {
   public starts: number = Date.now();
 
@@ -41,7 +41,7 @@ export class SeedService {
 
   public async getData() {
     for (const essence in entities) {
-      const swapiUrl = 'https://swapi-api.hbtn.io/api/';
+      const swapiUrl = 'https://swapi.dev/api/';
       const entity = entities[essence];
       let url = swapiUrl + entity;
       for (; url; ) {

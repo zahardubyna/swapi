@@ -6,7 +6,6 @@ import dataSourceOptions from '../database/config';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-// import { UserEntity } from './users/entity/user.entity';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
