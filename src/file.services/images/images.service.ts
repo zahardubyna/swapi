@@ -3,7 +3,7 @@ import { plainToClassFromExist } from 'class-transformer';
 import { FileService } from '../file/file.service';
 import { BucketService } from '../bucket/bucket.service';
 import { ImagesEntity } from './imageEntity/images.entity';
-import dataSource from '../../../database/datasource.config';
+import dataSource from '@database/datasource.config';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()

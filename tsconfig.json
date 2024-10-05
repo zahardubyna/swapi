@@ -17,6 +17,16 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "jsx": "react",
+    "paths": {
+      "@users/*"          : ["src/users/*"],
+      "@casl/*"           : ["src/casl/*"],
+      "@auth/*"           : ["src/auth/*"],
+      "@entities/*"       : ["src/entities/*"],
+      "@file.services/*"  : ["src/file.services/*"],
+      "@decorators/*"     : ["src/decorators/*"],
+      "@database/*"       : ["./database/*"],
+    }
   }
 }

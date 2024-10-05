@@ -1,5 +1,5 @@
-import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { EntityNotFoundExceptionFilter } from './filters/entity.not.found.filters';
 import { HttpExceptionFilter } from './filters/http.exeption.filters';
 import dataSource from '../database/datasource.config';
@@ -7,7 +7,7 @@ import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
 import process from 'process';
-
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,8 +17,28 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
-  app.useGlobalFilters(new EntityNotFoundExceptionFilter());
-  app.useGlobalFilters(new HttpExceptionFilter());
+
+  {
+    const { httpAdapter } = app.get(HttpAdapterHost);
+    app.useGlobalFilters(new EntityNotFoundExceptionFilter());
+    app.useGlobalFilters(new HttpExceptionFilter());
+  }
+
+  {
+    const options = {
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      skipMissingProperties: false,
+    };
+
+    app.useGlobalPipes(
+      new ValidationPipe({
+        ...options,
+      }),
+    );
+  }
+
 
   const config = new DocumentBuilder()
     .setTitle('4 lvl')
@@ -27,7 +47,12 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+
+  SwaggerModule.setup('api', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  });
 
   await dataSource.initialize();
 

@@ -2,8 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UserEntity } from './entity/user.entity';
 import dataSource from '../../database/datasource.config';
-import { encodeStr } from '../bcrypt/bcrypt';
-import { RegisterDto } from '../auth/dto/register.dto';
+import * as bcrypt from 'bcrypt';
+import { RegisterDto } from '@auth/dto/register.dto';
 
 @Injectable()
 export class UsersService {
@@ -30,9 +30,14 @@ export class UsersService {
     const user: UserEntity = await dataSource.manager.findOne(UserEntity, {
       where: { username: newUser.username },
     });
+
     if (user) throw new BadRequestException('User already exist');
 
-    const hash_password = await encodeStr(newUser.password, this.salt_round);
+    const hash_password = await bcrypt.hash(
+      newUser.password,
+      await bcrypt.genSalt(this.salt_round),
+    );
+
     return dataSource.manager
       .save(UserEntity, {
         username: newUser.username,
