@@ -7,12 +7,13 @@ import { VehicleController } from './vehicle.controller';
 import { VehicleService } from './vehicle.service';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { permissions } from '@entities/entity.permissions';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([VehicleEntity]),
     ImagesModule,
-    CaslModule,
+    CaslModule.forFeature({ permissions })
   ],
   controllers: [VehicleController],
   providers: [VehicleService, ConfigService, JwtService],

@@ -12,9 +12,6 @@ export class UsersService {
     this.salt_round = +this.configService.get<string>('SECRET_SALT_ROUNDS');
   }
 
-  async getAll(): Promise<UserEntity[]> {
-    return dataSource.manager.find(UserEntity);
-  }
   async getFew(skip: number, limit: number): Promise<UserEntity[]> {
     return dataSource.manager.find(UserEntity, { skip: skip, take: limit });
   }

@@ -26,7 +26,7 @@ export class CaslService {
     enrichedSubject: AnyClass | Subject = subject,
   ): boolean {
     if (!user || !action || !subject) return false;
-
+    console.log(user);
     const abilities = this.permissionFactory.defineAbilityForUser(user);
 
     // Gets list of permitted fields for action

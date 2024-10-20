@@ -2,11 +2,11 @@ import 'dotenv/config';
 
 const seedConfig = {
   type: 'mysql',
-  host: process.env.HOST,
-  port: +process.env.PORT,
-  username: process.env.USERNAME,
-  password: process.env.PASSWORD,
-  database: process.env.DATABASE,
+  host: process.env.MYSQL_HOST,
+  port: Number(process.env.MYSQL_PORT),
+  username: process.env.MYSQL_USERNAME,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
   entities: ['src/**/*.entity.ts'],
   migrations: ['dist/database/migration/*.js'],
   seeds: ['database/seeds/seeds.ts'],

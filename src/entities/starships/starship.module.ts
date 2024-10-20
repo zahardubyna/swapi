@@ -7,12 +7,13 @@ import { CaslModule } from '@casl/casl.module';
 import { StarshipEntity } from './starshipEntity/starship.entity';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { permissions } from '@entities/entity.permissions';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([StarshipEntity]),
     ImagesModule,
-    CaslModule,
+    CaslModule.forFeature({ permissions })
   ],
   controllers: [StarshipController],
   providers: [StarshipService, ConfigService, JwtService],

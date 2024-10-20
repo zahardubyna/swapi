@@ -22,10 +22,10 @@ export class PermissionsFactory {
 
     const { permissions } = this.options;
 
-    if (permissions.everyone) {
-      permissions.everyone(user, builder);
+    if (permissions?.everyone) {
+      permissions?.everyone(user, builder);
     }
-
+    // console.log(this.options);
     if (typeof permissions[user.role] === 'function') {
       permissions[user.role](user, builder);
     }

@@ -53,7 +53,7 @@ export class AuthService {
       loginDto.password,
     );
 
-    // blacklist old refresh token with new one if it is in whitelist
+    // blacklist old refresh token with new one if it's in whitelist
     const tokens = await this.tokenService.getTokens(user);
     await this.tokenService.updateRefreshToken(
       user,
@@ -65,10 +65,6 @@ export class AuthService {
   }
 
   async logout(userId: number, access_token: string, refresh_token: string | undefined) {
-    // hole in the defence:
-    // save the refresh token in cookie but if the client delete the refresh cookie on their side,
-    // refresh token = undefined => it cant be removed from whitelist what isn't belong the logout method
-
     const user = await dataSource.manager.findOne(UserEntity, {
       where: { id: userId },
     });

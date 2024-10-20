@@ -13,15 +13,14 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
   app.enableCors({
-    // origin: [ FULL_FRONTEND_URL ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
 
   {
     const { httpAdapter } = app.get(HttpAdapterHost);
-    app.useGlobalFilters(new EntityNotFoundExceptionFilter());
-    app.useGlobalFilters(new HttpExceptionFilter());
+    // app.useGlobalFilters(new EntityNotFoundExceptionFilter());
+    // app.useGlobalFilters(new HttpExceptionFilter());
   }
 
   {

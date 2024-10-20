@@ -7,9 +7,14 @@ import { PlanetService } from './planet.service';
 import { PlanetController } from './planet.controller';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { permissions } from '@entities/entity.permissions';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PlanetEntity]), ImagesModule, CaslModule],
+  imports: [
+    TypeOrmModule.forFeature([PlanetEntity]),
+    ImagesModule,
+    CaslModule.forFeature({ permissions }),
+  ],
   controllers: [PlanetController],
   providers: [PlanetService, ConfigService, JwtService],
 })

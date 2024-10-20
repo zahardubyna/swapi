@@ -7,9 +7,14 @@ import { PeopleController } from './people.controller';
 import { PeopleService } from './people.service';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { permissions } from '@entities/entity.permissions';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PeopleEntity]), ImagesModule, CaslModule],
+  imports: [
+    TypeOrmModule.forFeature([PeopleEntity]),
+    ImagesModule,
+    CaslModule.forFeature({ permissions }),
+  ],
   controllers: [PeopleController],
   providers: [PeopleService, ConfigService, JwtService],
 })

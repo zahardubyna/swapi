@@ -13,6 +13,7 @@ import { AuthService } from './services/auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { SkipAuth } from './skip.auth';
+import { Throttle } from '@nestjs/throttler';
 import { GetUserFromRequest } from '@decorators/user.decorator';
 import {
   ApiBaseBadRequestResponse, ApiBaseForbiddenResponse,
@@ -28,6 +29,7 @@ export class AuthController {
 
   @Post('register')
   @SkipAuth()
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   @HttpCode(HttpStatus.CREATED)
   @ApiBaseBadRequestResponse()
   @ApiBaseInternalServerErrorResponse()
@@ -37,6 +39,7 @@ export class AuthController {
 
   @Post('login')
   @SkipAuth()
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   @HttpCode(HttpStatus.OK)
   @ApiBaseBadRequestResponse()
   @ApiBaseUnauthorizedResponse()
@@ -53,6 +56,7 @@ export class AuthController {
 
   @ApiBearerAuth()
   @Post('logout')
+  @Throttle({ default: { limit: 2, ttl: 60000 } })
   @HttpCode(HttpStatus.OK)
   @ApiBaseBadRequestResponse()
   @ApiBaseUnauthorizedResponse()
@@ -70,6 +74,7 @@ export class AuthController {
 
   @Post('refresh')
   @SkipAuth()
+  @Throttle({ default: { limit: 3, ttl: 60000 } })
   @HttpCode(HttpStatus.OK)
   @ApiBaseUnauthorizedResponse()
   @ApiBaseForbiddenResponse()
@@ -86,13 +91,4 @@ export class AuthController {
 
     return tokens;
   }
-
-  // @Post('cookies')
-  // @SkipAuth()
-  // @HttpCode(HttpStatus.OK)
-  // async viewCookies(
-  //   @Req() req: Request,
-  // ) {
-  //   return req.cookies + '\n' + req.cookies.refresh_token;
-  // }
 }

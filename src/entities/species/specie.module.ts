@@ -7,9 +7,14 @@ import { SpecieController } from './specie.controller';
 import { SpecieService } from './specie.service';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { permissions } from '@entities/entity.permissions';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SpecieEntity]), ImagesModule, CaslModule],
+  imports: [
+    TypeOrmModule.forFeature([SpecieEntity]),
+    ImagesModule,
+    CaslModule.forFeature({ permissions }),
+  ],
   controllers: [SpecieController],
   providers: [SpecieService, ConfigService, JwtService],
 })

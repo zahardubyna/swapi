@@ -24,7 +24,7 @@
     "migration:revert": "npm run typeorm -- migration:revert",
     "re:migrate": "npm run migration:revert && rm database/migration/* && npm run migration:generate && npm run migration:run",
     "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config -n database/seed.config.ts",
-    "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed -n database/seed.config.ts"
+    "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed -n database/seed.config.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.417.0",
@@ -39,6 +39,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/serve-static": "^4.0.0",
     "@nestjs/swagger": "^7.1.8",
+    "@nestjs/throttler": "^6.2.1",
     "@nestjs/typeorm": "^10.0.0",
     "@types/ms": "^0.7.34",
     "@types/passport-jwt": "^3.0.10",
@@ -46,8 +47,6 @@
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "cache-manager": "^5.7.6",
-    "cache-manager-redis-store": "^2.0.0",
-    "cache-manager-redis-yet": "^5.1.4",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "cookie-parser": "^1.4.6",

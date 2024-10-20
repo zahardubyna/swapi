@@ -7,9 +7,14 @@ import { CaslModule } from '@casl/casl.module';
 import { FilmEntity } from './filmEntity/film.entity';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { permissions } from '@entities/entity.permissions';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([FilmEntity]), ImagesModule, CaslModule],
+  imports: [
+    TypeOrmModule.forFeature([FilmEntity]),
+    ImagesModule,
+    CaslModule.forFeature({ permissions }),
+  ],
   controllers: [FilmController],
   providers: [FilmService, ConfigService, JwtService],
 })

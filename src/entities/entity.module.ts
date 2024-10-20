@@ -6,8 +6,6 @@ import { StarshipModule } from './starships/starship.module';
 import { SpecieModule } from './species/specie.module';
 import { VehicleModule } from './vehicles/vehicle.module';
 import { ConfigModule } from '@nestjs/config';
-import { CaslModule } from '@casl/casl.module';
-import { permissions } from './entity.permissions';
 
 @Module({
   imports: [
@@ -18,7 +16,6 @@ import { permissions } from './entity.permissions';
     StarshipModule,
     VehicleModule,
     ConfigModule,
-    CaslModule.forFeature({ permissions })
   ],
 })
 export class EntityModule {}
