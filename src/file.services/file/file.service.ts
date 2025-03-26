@@ -5,7 +5,7 @@ import * as fs from 'fs';
 export class FileService {
   async appendFileToPublic(name: string, buffer: Buffer) {
     try {
-      await fs.writeFileSync(`./public/images/${name}`, buffer);
+      fs.writeFileSync(`./public/images/${name}`, buffer);
     } catch (err) {
       console.log(err);
     }
@@ -13,7 +13,7 @@ export class FileService {
 
   async deleteFileInPublic(name: string) {
     try {
-      await fs.unlinkSync(`./public/images/${name}`);
+      fs.unlinkSync(`./public/images/${name}`);
     } catch (err) {
       console.log(err);
     }

@@ -1,52 +1,56 @@
 import {
+  Body,
   Controller,
   Get,
   Param,
   ParseIntPipe,
-  Query,
-  UseGuards,
+  Post,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
-import { Role, Roles } from '../decorators/roles.decorator';
-import { RolesGuard } from '../auth/guards/roles-guard';
-import { JwtGuard } from '../auth/guards/jwt-guard';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags,
+} from '@nestjs/swagger';
+import { UserEntity } from './entity/user.entity';
+import { UserCreateDto } from '@users/dto/user.create.dto';
+import { UsePermissionsGuard } from '@casl/guards/permission.guard';
+import { UserActions } from './users.permissions';
+import { ApiBaseResponse } from '../common/decorators/api-base-response.decorator';
+import { GetUserFromRequest } from '../common/decorators/user.decorator';
 
 @ApiTags('Users')
-@UseGuards(JwtGuard, RolesGuard)
+@ApiBearerAuth()
+@ApiBaseResponse()
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @ApiBearerAuth()
-  @Get('get/all')
-  @Roles(Role.Admin)
-  getAll() {
-    return this.usersService.getAll();
-  }
-  @ApiBearerAuth()
-  @Get('get')
-  @Roles(Role.Admin)
-  getFew(
-    @Query('skip', ParseIntPipe) skip: number,
-    @Query('limit', ParseIntPipe) limit: number,
-  ) {
-    return this.usersService.getFew(skip, limit);
+  @Post()
+  @UsePermissionsGuard(UserActions.create, UserEntity)
+  @ApiOperation({ summary: 'Create user' })
+  @ApiCreatedResponse({ type: UserEntity })
+  create(@Body() dto: UserCreateDto) {
+    return this.usersService.create(dto);
   }
 
-  @ApiBearerAuth()
-  @Get('get/:id')
-  @Roles(Role.Admin)
-  @ApiParam({ name: 'id' })
-  getOneById(@Param('id', ParseIntPipe) id: number) {
+  @Get('me')
+  @UsePermissionsGuard(UserActions.get, UserEntity)
+  @ApiOperation({ summary: 'Get my users' })
+  @ApiOkResponse({ type: UserEntity })
+  getMe(@GetUserFromRequest() { id }) {
     return this.usersService.getOneById(id);
   }
 
-  @ApiBearerAuth()
-  @Get('get/:username')
-  @Roles(Role.Admin)
-  @ApiParam({ name: 'username' })
-  getOneByUsername(@Param('username', ParseIntPipe) username: string) {
-    return this.usersService.getOneByUsername(username);
+  @Get(':id')
+  @UsePermissionsGuard(UserActions.getById, UserEntity)
+  @ApiOperation({ summary: 'Get user by id' })
+  @ApiOkResponse({ type: UserEntity })
+  @ApiParam({ name: 'id' })
+  getOneById(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.getOneById(id);
   }
 }

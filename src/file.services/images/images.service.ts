@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { plainToClassFromExist } from 'class-transformer';
 import { FileService } from '../file/file.service';
 import { BucketService } from '../bucket/bucket.service';
-import { ImagesEntity } from './imageEntity/images.entity';
-import dataSource from '../../../database/datasource.config';
+import { ImagesEntity } from '@file.services/images/entity/images.entity';
+import dataSource from '@database/datasource.config';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
@@ -31,9 +31,7 @@ export class FileImagesService {
           file_original_name: file.originalname,
           aws_url,
         };
-        console.log(ImagesEntity);
-        console.log(resFile);
-        console.log(plainToClassFromExist(new ImagesEntity(), resFile));
+
         resFiles.push(plainToClassFromExist(new ImagesEntity(), resFile));
         await this.fileServices.appendFileToPublic(fullName, file.buffer);
       }),

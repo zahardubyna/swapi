@@ -1,23 +1,49 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { EntityModule } from './entity/entity.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import dataSourceOptions from '../database/config';
-import { join } from 'path';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { EntityModule } from '@entities/entity.module';
+import dataSourceOptions from '@database/mysql.config';
+import { AuthModule } from '@auth/auth.module';
+import { CaslModule } from '@casl/casl.module';
+import { AuthGuard } from '@auth/guards/auth.guard';
+import { UsersModule } from '@users/users.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(dataSourceOptions),
+    ConfigModule.forRoot({ isGlobal: true }),
+    JwtModule.register({
+      global: true,
+    }),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => [
+        {
+          ttl: config.get<number>('THROTTLE_TTL'),
+          limit: config.get<number>('THROTTLE_LIMIT'),
+        },
+      ],
+    }),
     AuthModule,
+    CaslModule,
     UsersModule,
     EntityModule,
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../', 'public/main'),
-    }),
-    ConfigModule,
+    RedisModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }
   ],
 })
 export class AppModule {}

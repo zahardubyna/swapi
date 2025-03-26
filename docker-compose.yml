@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  mysql_db:
+    image: mysql:latest
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - ${MYSQL_DOCKER_HOST_PORT}:${MYSQL_DOCKER_CONTAINER_PORT}
+    volumes:
+      - 'mysqldata:/var/lib/mysql'
+
+  redis_db:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - ${REDIS_DOCKER_HOST_PORT}:${REDIS_DOCKER_CONTAINER_PORT}
+    volumes:
+      - 'redisdata:/var/lib/redis'
+    environment:
+      REDIS_DATABASES: 16
+
+volumes:
+  mysqldata:
+  redisdata:
+
+networks:
+  network:
+    driver: bridge

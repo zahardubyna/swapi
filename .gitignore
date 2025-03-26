@@ -237,10 +237,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-/database/migration/*
+/database/migrations/*
 
 /public/images/*
 
 .idea/codeStyles/*
 .idea/codeStyles/
-.idea/
+.idea
