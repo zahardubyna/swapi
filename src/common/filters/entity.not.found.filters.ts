@@ -2,27 +2,28 @@ import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
-  HttpException, HttpStatus,
+  HttpStatus,
+  NotFoundException,
 } from '@nestjs/common';
 import { Response } from 'express';
 
-@Catch(HttpException)
-export class HttpExceptionFilter implements ExceptionFilter {
-  catch(exception: HttpException, host: ArgumentsHost) {
+@Catch(NotFoundException)
+export class EntityNotFoundExceptionFilter implements ExceptionFilter {
+  catch(exception: NotFoundException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    const res = exception.getResponse();
+
     const status = exception.getStatus
       ? exception.getStatus()
-      : HttpStatus.INTERNAL_SERVER_ERROR;
+      : HttpStatus.NOT_FOUND;
 
     response.status(status).json({
-      statusCode: status,
-      isSuccess: 'false',
+      status: status,
+      success: false,
       timestamp: new Date().toISOString(),
       path: request.url,
-      error: res,
+      error: exception.getResponse(),
     });
   }
 }

@@ -3,7 +3,7 @@ import { UserEntity } from './entity/user.entity';
 
 export enum UserActions {
   get = 'get',
-  getMe = 'getMe',
+  // getMe = 'getMe',
   getById = 'getById',
   create = 'create',
   update = 'update',
@@ -12,13 +12,13 @@ export enum UserActions {
 
 export const permissions: Permissions = {
   everyone(user, { can }) {
-    // All users can read self by Id
-    can(UserActions.getMe, UserEntity, { id: user.id });
+    // all users can read their own user object
+    can(UserActions.get, UserEntity, { id: user.id });
   },
 
   admin(user, { can }) {
     // Admin can read all
-    can([UserActions.get, UserActions.getById, UserActions.getMe], UserEntity);
+    can([UserActions.get, UserActions.getById], UserEntity);
 
     can(UserActions.update, UserEntity, ['id', 'username'], {
       role: { $nin: 'admin' },

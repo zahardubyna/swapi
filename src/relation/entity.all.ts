@@ -1,9 +1,9 @@
-import { PeopleEntity } from '@entities/people/peopleEntity/people.entity';
-import { PlanetEntity } from '@entities/planets/planetEntity/planet.entity';
-import { FilmEntity } from '@entities/films/filmEntity/film.entity';
-import { StarshipEntity } from '@entities/starships/starshipEntity/starship.entity';
-import { SpecieEntity } from '@entities/species/specieEntity/specie.entity';
-import { VehicleEntity } from '@entities/vehicles/vehicleEntity/vehicle.entity';
+import { PeopleEntity } from '@entities/people/entity/people.entity';
+import { PlanetEntity } from '@entities/planets/entity/planet.entity';
+import { FilmEntity } from '@entities/films/entity/film.entity';
+import { StarshipEntity } from '@entities/starships/entity/starship.entity';
+import { SpecieEntity } from '@entities/species/entity/specie.entity';
+import { VehicleEntity } from '@entities/vehicles/entity/vehicle.entity';
 
 export const EntityAll = {
   residents: PeopleEntity,

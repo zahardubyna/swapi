@@ -12,7 +12,6 @@ import * as bcrypt from 'bcrypt';
 import { TokenService } from '@auth/services/token.service';
 import { ConfigService } from '@nestjs/config';
 import dataSource from '@database/datasource.config';
-import { IsNull, Not } from 'typeorm';
 import ms from 'ms';
 
 @Injectable()

@@ -12,10 +12,10 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { FilmService } from './film.service';
-import { FilmEntity } from './filmEntity/film.entity';
-import { FilmCreateDto } from './filmDto/film.create.dto';
-import { FilmUpdateDto } from './filmDto/film.update.dto';
-import { FilmRelationDto } from './filmDto/film.relation.dto';
+import { FilmEntity } from '@entities/films/entity/film.entity';
+import { FilmCreateDto } from '@entities/films/dto/film.create.dto';
+import { FilmUpdateDto } from '@entities/films/dto/film.update.dto';
+import { FilmRelationDto } from '@entities/films/dto/film.relation.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UsePermissionsGuard } from '@casl/guards/permission.guard';
 import { EntitiesActions } from '@entities/entity.permissions';
@@ -27,7 +27,7 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { ApiBaseResponse } from '@decorators/api-base-response.decorator';
+import { ApiBaseResponse } from '../../common/decorators/api-base-response.decorator';
 
 @ApiTags('Films')
 @ApiBearerAuth()

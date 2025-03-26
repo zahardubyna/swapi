@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
-import { VehicleEntity } from './vehicleEntity/vehicle.entity';
+import { VehicleEntity } from '@entities/vehicles/entity/vehicle.entity';
 import { FileImagesService } from '@file.services/images/images.service';
-import { VehicleCreateDto } from './vehicleDto/vehicle.create.dto';
-import { VehicleUpdateDto } from './vehicleDto/vehicle.update.dto';
-import { VehicleRelationDto } from './vehicleDto/vehicle.relation.dto';
+import { VehicleCreateDto } from '@entities/vehicles/dto/vehicle.create.dto';
+import { VehicleUpdateDto } from '@entities/vehicles/dto/vehicle.update.dto';
+import { VehicleRelationDto } from '@entities/vehicles/dto/vehicle.relation.dto';
 import { createRelation } from '../../relation/create.relation';
 
 @Injectable()

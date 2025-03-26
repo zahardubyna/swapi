@@ -1,20 +1,22 @@
 import {
-  Column,
+  BaseEntity,
+  Column, CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
-import { ImagesEntity } from '@file.services/images/imageEntity/images.entity';
-import { PeopleEntity } from '../../people/peopleEntity/people.entity';
-import { FilmEntity } from '../../films/filmEntity/film.entity';
-import { PlanetEntity } from '../../planets/planetEntity/planet.entity';
+import { ImagesEntity } from '@file.services/images/entity/images.entity';
+import { PeopleEntity } from '@entities/people/entity/people.entity';
+import { FilmEntity } from '@entities/films/entity/film.entity';
+import { PlanetEntity } from '@entities/planets/entity/planet.entity';
 import { IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'species' })
-export class SpecieEntity {
+export class SpecieEntity extends BaseEntity {
   @IsNumber()
   @PrimaryGeneratedColumn()
   id: number;
@@ -64,35 +66,27 @@ export class SpecieEntity {
   @Column()
   language: string;
 
-  @ManyToOne(() => PlanetEntity, {
-    eager: true,
-  })
-  homeworld: PlanetEntity;
-
   @ManyToMany(() => PeopleEntity, (people) => people.species, {
     onDelete: 'CASCADE',
   })
-  people: PeopleEntity[];
+  people?: PeopleEntity[];
 
   @ManyToMany(() => FilmEntity, (film) => film.species, {
     cascade: true,
     eager: true,
     onDelete: 'CASCADE',
   })
-  @JoinTable()
-  films: FilmEntity[];
+  films?: FilmEntity[];
 
-  @IsString()
-  @ApiProperty({ type: String })
-  @Column()
-  created: string;
+  @Exclude()
+  @CreateDateColumn({ type: 'timestamp' })
+  created: Date;
 
-  @IsString()
-  @ApiProperty({ type: String })
-  @Column()
-  edited: string;
+  @Exclude()
+  @UpdateDateColumn({ type: 'timestamp' })
+  edited: Date;
 
   @ManyToMany(() => ImagesEntity, { cascade: true, eager: true })
-  @JoinTable()
-  images: ImagesEntity[];
+  @JoinTable({ name: 'species_images' })
+  images?: ImagesEntity[];
 }

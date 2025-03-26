@@ -13,9 +13,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { StarshipService } from './starship.service';
-import { StarshipCreateDto } from './starshipDto/starship.create.dto';
-import { StarshipUpdateDto } from './starshipDto/starship.update.dto';
-import { StarshipRelationDto } from './starshipDto/starship.relation.dto';
+import { StarshipCreateDto } from '@entities/starships/dto/starship.create.dto';
+import { StarshipUpdateDto } from '@entities/starships/dto/starship.update.dto';
+import { StarshipRelationDto } from '@entities/starships/dto/starship.relation.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UsePermissionsGuard } from '@casl/guards/permission.guard';
 import { EntitiesActions } from '@entities/entity.permissions';
@@ -29,8 +29,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { StarshipEntity } from '@entities/starships/starshipEntity/starship.entity';
-import { ApiBaseResponse } from '@decorators/api-base-response.decorator';
+import { StarshipEntity } from '@entities/starships/entity/starship.entity';
+import { ApiBaseResponse } from '../../common/decorators/api-base-response.decorator';
 
 
 @ApiTags('Starships')

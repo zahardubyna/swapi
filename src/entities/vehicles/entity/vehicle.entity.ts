@@ -1,18 +1,20 @@
 import {
-  Column,
+  BaseEntity,
+  Column, CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
-import { ImagesEntity } from '@file.services/images/imageEntity/images.entity';
-import { PeopleEntity } from '../../people/peopleEntity/people.entity';
-import { FilmEntity } from '../../films/filmEntity/film.entity';
+import { ImagesEntity } from '@file.services/images/entity/images.entity';
+import { PeopleEntity } from '@entities/people/entity/people.entity';
+import { FilmEntity } from '@entities/films/entity/film.entity';
 import { IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'vehicles' })
-export class VehicleEntity {
+export class VehicleEntity extends BaseEntity {
   @IsNumber()
   @ApiProperty({ type: Number })
   @PrimaryGeneratedColumn()
@@ -76,27 +78,24 @@ export class VehicleEntity {
   @ManyToMany(() => PeopleEntity, (people) => people.vehicles, {
     onDelete: 'CASCADE',
   })
-  pilots: PeopleEntity[];
+  pilots?: PeopleEntity[];
 
   @ManyToMany(() => FilmEntity, (film) => film.vehicles, {
     cascade: true,
     eager: true,
     onDelete: 'CASCADE',
   })
-  @JoinTable()
-  films: FilmEntity[];
+  films?: FilmEntity[];
 
-  @IsString()
-  @ApiProperty({ type: String })
-  @Column()
-  created: string;
+  @Exclude()
+  @CreateDateColumn({ type: 'timestamp' })
+  created: Date;
 
-  @IsString()
-  @ApiProperty({ type: String })
-  @Column()
-  edited: string;
+  @Exclude()
+  @UpdateDateColumn({ type: 'timestamp' })
+  edited: Date;
 
   @ManyToMany(() => ImagesEntity, { cascade: true, eager: true })
-  @JoinTable()
-  images: ImagesEntity[];
+  @JoinTable({ name: 'vehicles_images' })
+  images?: ImagesEntity[];
 }

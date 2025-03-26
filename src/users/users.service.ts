@@ -12,16 +12,12 @@ export class UsersService {
     this.salt_round = +this.configService.get<string>('SECRET_SALT_ROUNDS');
   }
 
-  async getFew(skip: number, limit: number): Promise<UserEntity[]> {
-    return dataSource.manager.find(UserEntity, { skip: skip, take: limit });
-  }
-
   async getOneByUsername(username: string): Promise<UserEntity> {
     return dataSource.manager.findOne(UserEntity, { where: { username } });
   }
 
   async getOneById(id: number): Promise<UserEntity> {
-    return dataSource.manager.findOne(UserEntity, { where: { id } });
+    return dataSource.manager.findOne(UserEntity, { where: { id }, select: ['id', 'username', 'role']  });
   }
   async create(newUser: RegisterDto): Promise<UserEntity> {
     const user: UserEntity = await dataSource.manager.findOne(UserEntity, {

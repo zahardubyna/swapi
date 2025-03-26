@@ -19,8 +19,8 @@ import { UserEntity } from './entity/user.entity';
 import { UserCreateDto } from '@users/dto/user.create.dto';
 import { UsePermissionsGuard } from '@casl/guards/permission.guard';
 import { UserActions } from './users.permissions';
-import { ApiBaseResponse } from '@decorators/api-base-response.decorator';
-import { GetUserFromRequest } from '@decorators/user.decorator';
+import { ApiBaseResponse } from '../common/decorators/api-base-response.decorator';
+import { GetUserFromRequest } from '../common/decorators/user.decorator';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -38,7 +38,7 @@ export class UsersController {
   }
 
   @Get('me')
-  @UsePermissionsGuard(UserActions.getMe, UserEntity)
+  @UsePermissionsGuard(UserActions.get, UserEntity)
   @ApiOperation({ summary: 'Get my users' })
   @ApiOkResponse({ type: UserEntity })
   getMe(@GetUserFromRequest() { id }) {
@@ -53,13 +53,4 @@ export class UsersController {
   getOneById(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.getOneById(id);
   }
-
-  // @Get()
-  // @UsePermissionsGuard(UserActions.get, UserEntity)
-  // @ApiOperation({ summary: 'Get user by username' })
-  // @ApiOkResponse({ type: UserEntity })
-  // getOneByUsername(@Param('username') username: string) {
-  //   console.log(username);
-  // return this.usersService.getOneByUsername(username);
-  // }
 }

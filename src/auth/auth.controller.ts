@@ -14,13 +14,13 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { SkipAuth } from './skip.auth';
 import { Throttle } from '@nestjs/throttler';
-import { GetUserFromRequest } from '@decorators/user.decorator';
+import { GetUserFromRequest } from '../common/decorators/user.decorator';
 import {
   ApiBaseBadRequestResponse, ApiBaseForbiddenResponse,
   ApiBaseInternalServerErrorResponse,
   ApiBaseUnauthorizedResponse,
-} from '@decorators/api-base-response.decorator';
-import { GetAccessToken } from '@decorators/get-access-token.decorator';
+} from '../common/decorators/api-base-response.decorator';
+import { GetAccessToken } from '../common/decorators/get-access-token.decorator';
 
 @ApiTags('Auth')
 @Controller('auth')

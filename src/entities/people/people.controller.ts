@@ -13,9 +13,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { PeopleService } from './people.service';
-import { PeopleCreateDto } from './peopleDto/people.create.dto';
-import { PeopleUpdateDto } from './peopleDto/people.update.dto';
-import { PeopleRelationDto } from './peopleDto/people.relation.dto';
+import { PeopleCreateDto } from '@entities/people/dto/people.create.dto';
+import { PeopleUpdateDto } from '@entities/people/dto/people.update.dto';
+import { PeopleRelationDto } from '@entities/people/dto/people.relation.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UsePermissionsGuard } from '@casl/guards/permission.guard';
 import { EntitiesActions } from '@entities/entity.permissions';
@@ -28,8 +28,8 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { PeopleEntity } from './peopleEntity/people.entity';
-import { ApiBaseResponse } from '@decorators/api-base-response.decorator';
+import { PeopleEntity } from '@entities/people/entity/people.entity';
+import { ApiBaseResponse } from '../../common/decorators/api-base-response.decorator';
 
 @ApiTags('People')
 @ApiBearerAuth()
@@ -95,7 +95,7 @@ export class PeopleController {
     return this.peopleServices.delete(id);
   }
 
-  @Put('relation/:id')
+  @Post('relation/:id')
   @UsePermissionsGuard(EntitiesActions.update, PeopleEntity)
   @ApiOperation({ summary: 'Create person relations with' })
   @ApiCreatedResponse({ type: PeopleEntity })

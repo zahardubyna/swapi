@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { entities, EntityAll } from '../src/relation/entity.all';
 import { plainToInstance } from 'class-transformer';
-import * as _ from 'lodash';
 
 export class SeedService {
   public starts: number = Date.now();
@@ -41,8 +40,8 @@ export class SeedService {
 
   public async getData() {
     for (const essence in entities) {
-      const swapiUrl = 'https://swapi.dev/api/';
-      const entity = entities[essence];
+      const swapiUrl: string = 'https://swapi.dev/api/';
+      const entity: string = entities[essence];
       let url = swapiUrl + entity;
       for (; url; ) {
         const response = await axios.get(url);
@@ -62,12 +61,12 @@ export class SeedService {
     return this.data;
   }
   public async deleteRelationsInData(entityName: string) {
-    this.data[entityName].map(async (entity, index) => {
+    this.data[entityName].map(async (entity, index: number) => {
       const url: string = entity.url;
       const { relationId } = await this.getIdFromUrl(url);
       entity.id = relationId;
 
-      const entityCopy = _.cloneDeep(entity);
+      const entityCopy = structuredClone(entity);
       this.relations.map((parameter) => {
         delete entityCopy[parameter];
       });

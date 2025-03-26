@@ -1,21 +1,23 @@
 import {
-  Column,
+  BaseEntity,
+  Column, CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
-import { ImagesEntity } from '@file.services/images/imageEntity/images.entity';
-import { PeopleEntity } from '../../people/peopleEntity/people.entity';
-import { PlanetEntity } from '../../planets/planetEntity/planet.entity';
-import { StarshipEntity } from '../../starships/starshipEntity/starship.entity';
-import { SpecieEntity } from '../../species/specieEntity/specie.entity';
-import { VehicleEntity } from '../../vehicles/vehicleEntity/vehicle.entity';
+import { ImagesEntity } from '@file.services/images/entity/images.entity';
+import { PeopleEntity } from '@entities/people/entity/people.entity';
+import { PlanetEntity } from '@entities/planets/entity/planet.entity';
+import { StarshipEntity } from '@entities/starships/entity/starship.entity';
+import { SpecieEntity } from '@entities/species/entity/specie.entity';
+import { VehicleEntity } from '@entities/vehicles/entity/vehicle.entity';
 import { IsDate, IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'films' })
-export class FilmEntity {
+export class FilmEntity extends BaseEntity {
   @IsString()
   @ApiProperty({ type: Number })
   @PrimaryGeneratedColumn()
@@ -54,39 +56,41 @@ export class FilmEntity {
   @ManyToMany(() => PeopleEntity, (people) => people.films, {
     onDelete: 'CASCADE',
   })
-  characters: PeopleEntity[];
+  characters?: PeopleEntity[];
 
   @ManyToMany(() => PlanetEntity, (planet) => planet.films, {
     onDelete: 'CASCADE',
   })
-  planets: PlanetEntity[];
+  @JoinTable({ name: 'films_planets' })
+  planets?: PlanetEntity[];
 
   @ManyToMany(() => StarshipEntity, (starship) => starship.films, {
     onDelete: 'CASCADE',
   })
-  starships: StarshipEntity[];
+  @JoinTable({ name: 'films_starships' })
+  starships?: StarshipEntity[];
 
   @ManyToMany(() => VehicleEntity, (vehicle) => vehicle.films, {
     onDelete: 'CASCADE',
   })
-  vehicles: VehicleEntity[];
+  @JoinTable({ name: 'films_vehicles' })
+  vehicles?: VehicleEntity[];
 
   @ManyToMany(() => SpecieEntity, (specie) => specie.films, {
     onDelete: 'CASCADE',
   })
-  species: SpecieEntity[];
+  @JoinTable({ name: 'films_species' })
+  species?: SpecieEntity[];
 
-  @IsDate()
-  @ApiProperty({ type: Date })
-  @Column()
-  created: string;
+  @Exclude()
+  @CreateDateColumn({ type: 'timestamp' })
+  created: Date;
 
-  @IsDate()
-  @ApiProperty({ type: Date })
-  @Column()
-  edited: string;
+  @Exclude()
+  @UpdateDateColumn({ type: 'timestamp' })
+  edited: Date;
 
   @ManyToMany(() => ImagesEntity, { cascade: true, eager: true })
-  @JoinTable()
-  images: ImagesEntity[];
+  @JoinTable({ name: 'films_images' })
+  images?: ImagesEntity[];
 }

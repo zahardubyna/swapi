@@ -26,10 +26,9 @@ export class CaslService {
     enrichedSubject: AnyClass | Subject = subject,
   ): boolean {
     if (!user || !action || !subject) return false;
-    console.log(user);
     const abilities = this.permissionFactory.defineAbilityForUser(user);
 
-    // Gets list of permitted fields for action
+    // gets list of permitted fields for action
     const permittedFieldsOfAbility =
       this.permissionFactory.definePermittedFieldForAbility(
         abilities,
@@ -37,8 +36,8 @@ export class CaslService {
         enrichedSubject,
       );
 
-    // If permitted fields is defined - check every field
-    // Uses subject keys for permissions and enrichedSubject for conditions
+    // if permitted fields is defined - check every field
+    // use subject keys for permissions and enrichedSubject for conditions
     if (permittedFieldsOfAbility.length > 0) {
       const subjectFields = Object.keys(subject);
       return subjectFields.every((field) =>

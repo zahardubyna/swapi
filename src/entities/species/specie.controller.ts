@@ -12,9 +12,9 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { SpecieService } from './specie.service';
-import { SpecieCreateDto } from './specieDto/specie.create.dto';
-import { SpecieUpdateDto } from './specieDto/specie.update.dto';
-import { SpecieRelationDto } from './specieDto/specie.relation.dto';
+import { SpecieCreateDto } from '@entities/species/dto/specie.create.dto';
+import { SpecieUpdateDto } from '@entities/species/dto/specie.update.dto';
+import { SpecieRelationDto } from '@entities/species/dto/specie.relation.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UsePermissionsGuard } from '@casl/guards/permission.guard';
 import { EntitiesActions } from '@entities/entity.permissions';
@@ -27,8 +27,8 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { SpecieEntity } from '@entities/species/specieEntity/specie.entity';
-import { ApiBaseResponse } from '@decorators/api-base-response.decorator';
+import { SpecieEntity } from '@entities/species/entity/specie.entity';
+import { ApiBaseResponse } from '../../common/decorators/api-base-response.decorator';
 
 @ApiTags('Species')
 @ApiBearerAuth()

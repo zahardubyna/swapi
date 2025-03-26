@@ -13,9 +13,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { PlanetService } from './planet.service';
-import { PlanetCreateDto } from './planetDto/planet.create.dto';
-import { PlanetUpdateDto } from './planetDto/planet.update.dto';
-import { PlanetRelationDto } from './planetDto/planet.relation.dto';
+import { PlanetCreateDto } from '@entities/planets/dto/planet.create.dto';
+import { PlanetUpdateDto } from '@entities/planets/dto/planet.update.dto';
+import { PlanetRelationDto } from '@entities/planets/dto/planet.relation.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UsePermissionsGuard } from '@casl/guards/permission.guard';
 import { EntitiesActions } from '@entities/entity.permissions';
@@ -28,8 +28,8 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { PlanetEntity } from '@entities/planets/planetEntity/planet.entity';
-import { ApiBaseResponse } from '@decorators/api-base-response.decorator';
+import { PlanetEntity } from '@entities/planets/entity/planet.entity';
+import { ApiBaseResponse } from '../../common/decorators/api-base-response.decorator';
 
 @ApiTags('Planets')
 @ApiBearerAuth()

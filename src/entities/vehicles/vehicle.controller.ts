@@ -12,9 +12,9 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { VehicleService } from './vehicle.service';
-import { VehicleCreateDto } from './vehicleDto/vehicle.create.dto';
-import { VehicleUpdateDto } from './vehicleDto/vehicle.update.dto';
-import { VehicleRelationDto } from './vehicleDto/vehicle.relation.dto';
+import { VehicleCreateDto } from '@entities/vehicles/dto/vehicle.create.dto';
+import { VehicleUpdateDto } from '@entities/vehicles/dto/vehicle.update.dto';
+import { VehicleRelationDto } from '@entities/vehicles/dto/vehicle.relation.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UsePermissionsGuard } from '@casl/guards/permission.guard';
 import { EntitiesActions } from '@entities/entity.permissions';
@@ -27,8 +27,8 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { VehicleEntity } from '@entities/vehicles/vehicleEntity/vehicle.entity';
-import { ApiBaseResponse } from '@decorators/api-base-response.decorator';
+import { VehicleEntity } from '@entities/vehicles/entity/vehicle.entity';
+import { ApiBaseResponse } from '../../common/decorators/api-base-response.decorator';
 
 
 @ApiTags('Vehicles')

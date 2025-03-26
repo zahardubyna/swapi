@@ -1,20 +1,17 @@
+import { DataSource, DataSourceOptions } from 'typeorm';
 import 'dotenv/config';
+import process from 'process';
 
-const seedConfig = {
+const seedDataSource: DataSource = new DataSource({
   type: 'mysql',
-  host: process.env.MYSQL_HOST,
-  port: Number(process.env.MYSQL_PORT),
+  host: String(process.env.MYSQL_HOST),
+  port: Number(process.env.MYSQL_DOCKER_CONTAINER_PORT),
   username: process.env.MYSQL_USERNAME,
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
-  entities: ['src/**/*.entity.ts'],
-  migrations: ['dist/database/migration/*.js'],
-  seeds: ['database/seeds/seeds.ts'],
-  factories: [`database/factories/*.factory.ts`],
-  extra: {
-    charset: 'utf8mb4_general_ci',
-  },
   synchronize: false,
-};
+  entities: ['src/**/*.entity{.ts,.js}'],
+  migrations: ['database/migrations/*{.ts,.js}'],
+} as DataSourceOptions);
 
-export default seedConfig;
+export default seedDataSource;
