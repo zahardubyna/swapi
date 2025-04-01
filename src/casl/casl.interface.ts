@@ -6,23 +6,27 @@ export type Roles = 'admin' | 'user';
 
 export type AppAbility = AnyAbility;
 
-export interface AuthorizableUser<role = string, id = string, email = string> {
+export interface AuthorizableUser<
+  role = string,
+  id = string,
+  username = string,
+> {
   id: id;
-  email: email;
+  username: username;
   role: role;
 }
 
-export type DefinePermissionsForRole< user extends AuthorizableUser<unknown, unknown> = AuthorizableUser > = (
-  user: user,
-  builder: AbilityBuilder<AppAbility>,
-) => void;
+export type DefinePermissionsForRole<
+  user extends AuthorizableUser<unknown, unknown> = AuthorizableUser,
+> = (user: user, builder: AbilityBuilder<AppAbility>) => void;
 
-export type Permissions = Partial<Record<Roles | 'everyone', DefinePermissionsForRole>>;
+export type Permissions = Partial<
+  Record<Roles | 'everyone', DefinePermissionsForRole>
+>;
 
 export interface ModuleOptionsForFeature {
   permissions: Permissions;
 }
-
 
 export interface CaslGuardOptions {
   action: string;

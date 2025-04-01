@@ -17,7 +17,10 @@ export class UsersService {
   }
 
   async getOneById(id: number): Promise<UserEntity> {
-    return dataSource.manager.findOne(UserEntity, { where: { id }, select: ['id', 'username', 'role']  });
+    return dataSource.manager.findOne(UserEntity, {
+      where: { id },
+      select: ['id', 'username'],
+    });
   }
   async create(newUser: RegisterDto): Promise<UserEntity> {
     const user: UserEntity = await dataSource.manager.findOne(UserEntity, {

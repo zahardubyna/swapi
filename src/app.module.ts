@@ -42,8 +42,8 @@ import { RedisModule } from './redis/redis.module';
     },
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard
-    }
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}

@@ -18,10 +18,11 @@ import { FilmUpdateDto } from '@entities/films/dto/film.update.dto';
 import { FilmRelationDto } from '@entities/films/dto/film.relation.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UsePermissionsGuard } from '@casl/guards/permission.guard';
-import { EntitiesActions } from '@entities/entity.permissions';
+import { Actions } from '@casl/actions.enum';
 import {
   ApiBearerAuth,
-  ApiConsumes, ApiCreatedResponse,
+  ApiConsumes,
+  ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
   ApiParam,
@@ -37,7 +38,7 @@ export class FilmController {
   constructor(private readonly filmServices: FilmService) {}
 
   @Get()
-  @UsePermissionsGuard(EntitiesActions.get, FilmEntity)
+  @UsePermissionsGuard(Actions.get, FilmEntity)
   @ApiOperation({ summary: 'Get few films' })
   @ApiOkResponse({ type: FilmEntity, isArray: true })
   getFew(
@@ -47,9 +48,8 @@ export class FilmController {
     return this.filmServices.getFew(skip, limit);
   }
 
-  
   @Get(':id')
-  @UsePermissionsGuard(EntitiesActions.get, FilmEntity)
+  @UsePermissionsGuard(Actions.get, FilmEntity)
   @ApiParam({ name: 'id' })
   @ApiOperation({ summary: 'Get unique film' })
   @ApiOkResponse({ type: FilmEntity })
@@ -58,7 +58,7 @@ export class FilmController {
   }
 
   @Post()
-  @UsePermissionsGuard(EntitiesActions.create, FilmEntity)
+  @UsePermissionsGuard(Actions.create, FilmEntity)
   @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Create film' })
@@ -70,9 +70,8 @@ export class FilmController {
     return this.filmServices.create(body, files);
   }
 
-  
   @Put(':id')
-  @UsePermissionsGuard(EntitiesActions.update, FilmEntity)
+  @UsePermissionsGuard(Actions.update, FilmEntity)
   @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
   @ApiParam({ name: 'id' })
@@ -87,7 +86,7 @@ export class FilmController {
   }
 
   @Delete(':id')
-  @UsePermissionsGuard(EntitiesActions.delete, FilmEntity)
+  @UsePermissionsGuard(Actions.delete, FilmEntity)
   @ApiParam({ name: 'id' })
   @ApiOperation({ summary: 'Delete film' })
   @ApiOkResponse({ type: FilmEntity })
@@ -96,7 +95,7 @@ export class FilmController {
   }
 
   @Post('relation/:id')
-  @UsePermissionsGuard(EntitiesActions.update, FilmEntity)
+  @UsePermissionsGuard(Actions.update, FilmEntity)
   @ApiOperation({ summary: 'Create film relations with' })
   @ApiCreatedResponse({ type: FilmEntity })
   createRelationWith(

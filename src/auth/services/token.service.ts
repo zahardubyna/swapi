@@ -26,8 +26,9 @@ export class TokenService {
       this.configService.get<string>('REFRESH_JWT_SECRET');
     this.access_jwt_expires =
       this.configService.get<string>('ACCESS_JWT_EXPIRES');
-    this.refresh_jwt_expires =
-      this.configService.get<string>('REFRESH_JWT_EXPIRES');
+    this.refresh_jwt_expires = this.configService.get<string>(
+      'REFRESH_JWT_EXPIRES',
+    );
     this.whitelist_id = this.configService.get<number>('REDIS_WHITELIST_ID');
     this.blacklist_id = this.configService.get<number>('REDIS_BLACKLIST_ID');
   }
@@ -60,7 +61,9 @@ export class TokenService {
     return { access_token: access_token, refresh_token: refresh_token };
   }
 
-  async verifyAndDecodeRefreshToken(token: string | undefined): Promise<JwtPayload> {
+  async verifyAndDecodeRefreshToken(
+    token: string | undefined,
+  ): Promise<JwtPayload> {
     try {
       return await this.jwtService.verifyAsync(token, {
         secret: this.refresh_jwt_secret,
@@ -94,7 +97,7 @@ export class TokenService {
       );
     }
 
-    if(refresh_token){
+    if (refresh_token) {
       await this.redisService.set(
         `${user.username}:${refresh_token}`,
         'whitelisted',

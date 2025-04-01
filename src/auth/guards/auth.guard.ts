@@ -43,7 +43,7 @@ export class AuthGuard implements CanActivate {
         secret: this.configService.get<string>('ACCESS_JWT_SECRET'),
       });
 
-      await this.tokenService.isBlacklisted(token)
+      await this.tokenService.isBlacklisted(token);
 
       request.user = payload;
       // console.log(

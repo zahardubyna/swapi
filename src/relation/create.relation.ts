@@ -1,6 +1,6 @@
 import dataSource from '../../database/datasource.config';
 import { EntityAll } from './entity.all';
-import { Entity, EntityTarget } from 'typeorm';
+import { EntityTarget } from 'typeorm';
 
 export async function createRelation<T extends EntityTarget<{ id: number }>, U>(
   id: number,

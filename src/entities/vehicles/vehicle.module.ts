@@ -13,7 +13,7 @@ import { permissions } from '@entities/entity.permissions';
   imports: [
     TypeOrmModule.forFeature([VehicleEntity]),
     ImagesModule,
-    CaslModule.forFeature({ permissions })
+    CaslModule.forFeature({ permissions }),
   ],
   controllers: [VehicleController],
   providers: [VehicleService, ConfigService, JwtService],

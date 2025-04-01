@@ -17,7 +17,7 @@ import { VehicleUpdateDto } from '@entities/vehicles/dto/vehicle.update.dto';
 import { VehicleRelationDto } from '@entities/vehicles/dto/vehicle.relation.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UsePermissionsGuard } from '@casl/guards/permission.guard';
-import { EntitiesActions } from '@entities/entity.permissions';
+import { Actions } from '@casl/actions.enum';
 import {
   ApiBearerAuth,
   ApiConsumes,
@@ -30,17 +30,15 @@ import {
 import { VehicleEntity } from '@entities/vehicles/entity/vehicle.entity';
 import { ApiBaseResponse } from '../../common/decorators/api-base-response.decorator';
 
-
 @ApiTags('Vehicles')
 @ApiBearerAuth()
 @ApiBaseResponse()
-
 @Controller('vehicles')
 export class VehicleController {
   constructor(private readonly vehicleServices: VehicleService) {}
 
   @Get()
-  @UsePermissionsGuard(EntitiesActions.get, VehicleEntity)
+  @UsePermissionsGuard(Actions.get, VehicleEntity)
   @ApiOperation({ summary: 'Get few vehicle' })
   @ApiOkResponse({ type: VehicleEntity, isArray: true })
   getFew(
@@ -51,7 +49,7 @@ export class VehicleController {
   }
 
   @Get(':id')
-  @UsePermissionsGuard(EntitiesActions.get, VehicleEntity)
+  @UsePermissionsGuard(Actions.get, VehicleEntity)
   @ApiParam({ name: 'id' })
   @ApiOperation({ summary: 'Get unique vehicle' })
   @ApiOkResponse({ type: VehicleEntity })
@@ -60,7 +58,7 @@ export class VehicleController {
   }
 
   @Post()
-  @UsePermissionsGuard(EntitiesActions.create, VehicleEntity)
+  @UsePermissionsGuard(Actions.create, VehicleEntity)
   @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Create vehicle' })
@@ -73,7 +71,7 @@ export class VehicleController {
   }
 
   @Put(':id')
-  @UsePermissionsGuard(EntitiesActions.update, VehicleEntity)
+  @UsePermissionsGuard(Actions.update, VehicleEntity)
   @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
   @ApiParam({ name: 'id' })
@@ -88,7 +86,7 @@ export class VehicleController {
   }
 
   @Delete(':id')
-  @UsePermissionsGuard(EntitiesActions.delete, VehicleEntity)
+  @UsePermissionsGuard(Actions.delete, VehicleEntity)
   @ApiParam({ name: 'id' })
   @ApiOperation({ summary: 'Delete vehicle' })
   @ApiOkResponse({ type: VehicleEntity })
@@ -97,7 +95,7 @@ export class VehicleController {
   }
 
   @Post('relation/:id')
-  @UsePermissionsGuard(EntitiesActions.update, VehicleEntity)
+  @UsePermissionsGuard(Actions.update, VehicleEntity)
   @ApiOperation({ summary: 'Create vehicle relations with' })
   @ApiCreatedResponse({ type: VehicleEntity })
   createRelationWith(

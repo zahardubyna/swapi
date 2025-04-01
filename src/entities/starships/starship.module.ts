@@ -13,7 +13,7 @@ import { permissions } from '@entities/entity.permissions';
   imports: [
     TypeOrmModule.forFeature([StarshipEntity]),
     ImagesModule,
-    CaslModule.forFeature({ permissions })
+    CaslModule.forFeature({ permissions }),
   ],
   controllers: [StarshipController],
   providers: [StarshipService, ConfigService, JwtService],

@@ -18,7 +18,7 @@ export class PeopleService {
   ) {}
 
   async getFew(skip: number, limit: number) {
-    return this.peopleRepository.find({ skip: skip, take: limit});
+    return this.peopleRepository.find({ skip: skip, take: limit });
   }
 
   async getOne(id: number) {

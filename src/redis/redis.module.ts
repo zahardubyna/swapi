@@ -7,13 +7,14 @@ import Redis from 'ioredis';
   providers: [
     RedisService,
     {
-    provide: REDIS_MANAGER,
-    useFactory: () => {
-      return new Redis({
-        ...redisConfig,
-      });
+      provide: REDIS_MANAGER,
+      useFactory: () => {
+        return new Redis({
+          ...redisConfig,
+        });
+      },
     },
-  },],
+  ],
   exports: [RedisService, REDIS_MANAGER],
 })
 export class RedisModule {}

@@ -17,7 +17,7 @@ import { SpecieUpdateDto } from '@entities/species/dto/specie.update.dto';
 import { SpecieRelationDto } from '@entities/species/dto/specie.relation.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UsePermissionsGuard } from '@casl/guards/permission.guard';
-import { EntitiesActions } from '@entities/entity.permissions';
+import { Actions } from '@casl/actions.enum';
 import {
   ApiBearerAuth,
   ApiConsumes,
@@ -38,7 +38,7 @@ export class SpecieController {
   constructor(private readonly specieService: SpecieService) {}
 
   @Get()
-  @UsePermissionsGuard(EntitiesActions.get, SpecieEntity)
+  @UsePermissionsGuard(Actions.get, SpecieEntity)
   @ApiOperation({ summary: 'Get few species' })
   @ApiOkResponse({ type: SpecieEntity, isArray: true })
   getFew(
@@ -49,7 +49,7 @@ export class SpecieController {
   }
 
   @Get(':id')
-  @UsePermissionsGuard(EntitiesActions.get, SpecieEntity)
+  @UsePermissionsGuard(Actions.get, SpecieEntity)
   @ApiParam({ name: 'id' })
   @ApiOperation({ summary: 'Get unique specie' })
   @ApiOkResponse({ type: SpecieEntity })
@@ -58,7 +58,7 @@ export class SpecieController {
   }
 
   @Post()
-  @UsePermissionsGuard(EntitiesActions.create, SpecieEntity)
+  @UsePermissionsGuard(Actions.create, SpecieEntity)
   @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Create specie' })
@@ -71,7 +71,7 @@ export class SpecieController {
   }
 
   @Put(':id')
-  @UsePermissionsGuard(EntitiesActions.update, SpecieEntity)
+  @UsePermissionsGuard(Actions.update, SpecieEntity)
   @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
   @ApiParam({ name: 'id' })
@@ -86,7 +86,7 @@ export class SpecieController {
   }
 
   @Delete(':id')
-  @UsePermissionsGuard(EntitiesActions.delete, SpecieEntity)
+  @UsePermissionsGuard(Actions.delete, SpecieEntity)
   @ApiParam({ name: 'id' })
   @ApiOperation({ summary: 'Delete specie' })
   @ApiOkResponse({ type: SpecieEntity })
@@ -95,7 +95,7 @@ export class SpecieController {
   }
 
   @Post('relation/:id')
-  @UsePermissionsGuard(EntitiesActions.update, SpecieEntity)
+  @UsePermissionsGuard(Actions.update, SpecieEntity)
   @ApiOperation({ summary: 'Create specie relations with' })
   @ApiCreatedResponse({ type: SpecieEntity })
   createRelationWith(

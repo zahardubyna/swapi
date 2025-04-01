@@ -5,7 +5,6 @@ import { BucketService } from '@file.services/bucket/bucket.service';
 
 @Module({
   providers: [FileImagesService, FileService, BucketService],
-  exports: [FileImagesService, FileService, BucketService]
-
+  exports: [FileImagesService, FileService, BucketService],
 })
 export class ImagesModule {}

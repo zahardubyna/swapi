@@ -7,6 +7,6 @@ export const GetAccessToken = createParamDecorator<string | undefined>(
 
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
 
-    return token ;
+    return token;
   },
 );

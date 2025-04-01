@@ -1,4 +1,5 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
+import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { EntityNotFoundExceptionFilter } from './common/filters/entity.not.found.filters';
 import { HttpExceptionFilter } from './common/filters/http.exeption.filters';
@@ -7,13 +8,11 @@ import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
 import process from 'process';
-import { Logger, ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app: INestApplication = await NestFactory.create(AppModule);
 
-  const port = Number(process.env.SERVER_PORT) || 3000
+  const port = Number(process.env.SERVER_PORT) || 3000;
 
   {
     app.use(cookieParser());
@@ -32,7 +31,6 @@ async function bootstrap() {
   }
 
   {
-    const { httpAdapter } = app.get(HttpAdapterHost);
     app.useGlobalFilters(new EntityNotFoundExceptionFilter());
     app.useGlobalFilters(new HttpExceptionFilter());
   }
@@ -55,14 +53,14 @@ async function bootstrap() {
   }
 
   {
-    const config = new DocumentBuilder()
+    const config: Omit<OpenAPIObject, 'paths'> = new DocumentBuilder()
       .setTitle('SWAPI')
-      .setDescription('swapi api swagger')
+      .setDescription('Starwars api swagger')
       .addBearerAuth()
       .setVersion('1.0.0')
       .build();
 
-    const document = SwaggerModule.createDocument(app, config);
+    const document: OpenAPIObject = SwaggerModule.createDocument(app, config);
 
     const options = {
       swaggerOptions: {
@@ -76,7 +74,9 @@ async function bootstrap() {
   await dataSource.initialize();
 
   await app.listen(port, () => {
-    Logger.log(`\x1b[33m[Server]\x1b[0m \x1b[32mis running on ${port} port\x1b[0m`);
+    Logger.log(
+      `\x1b[33m[Server]\x1b[0m \x1b[32mis running on ${port} port\x1b[0m`,
+    );
   });
 }
 

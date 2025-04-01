@@ -10,7 +10,6 @@ import {
   Query,
   Param,
   ParseIntPipe,
-  UseGuards,
 } from '@nestjs/common';
 import { PlanetService } from './planet.service';
 import { PlanetCreateDto } from '@entities/planets/dto/planet.create.dto';
@@ -18,7 +17,7 @@ import { PlanetUpdateDto } from '@entities/planets/dto/planet.update.dto';
 import { PlanetRelationDto } from '@entities/planets/dto/planet.relation.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UsePermissionsGuard } from '@casl/guards/permission.guard';
-import { EntitiesActions } from '@entities/entity.permissions';
+import { Actions } from '@casl/actions.enum';
 import {
   ApiBearerAuth,
   ApiConsumes,
@@ -39,7 +38,7 @@ export class PlanetController {
   constructor(private readonly planetServices: PlanetService) {}
 
   @Get()
-  @UsePermissionsGuard(EntitiesActions.get, PlanetEntity)
+  @UsePermissionsGuard(Actions.get, PlanetEntity)
   @ApiOperation({ summary: 'Get few planets' })
   @ApiOkResponse({ type: PlanetEntity, isArray: true })
   getFew(
@@ -50,7 +49,7 @@ export class PlanetController {
   }
 
   @Get(':id')
-  @UsePermissionsGuard(EntitiesActions.get, PlanetEntity)
+  @UsePermissionsGuard(Actions.get, PlanetEntity)
   @ApiParam({ name: 'id' })
   @ApiOperation({ summary: 'Get unique planet' })
   @ApiOkResponse({ type: PlanetEntity })
@@ -59,7 +58,7 @@ export class PlanetController {
   }
 
   @Post()
-  @UsePermissionsGuard(EntitiesActions.create, PlanetEntity)
+  @UsePermissionsGuard(Actions.create, PlanetEntity)
   @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Create planet' })
@@ -72,7 +71,7 @@ export class PlanetController {
   }
 
   @Put(':id')
-  @UsePermissionsGuard(EntitiesActions.update, PlanetEntity)
+  @UsePermissionsGuard(Actions.update, PlanetEntity)
   @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
   @ApiParam({ name: 'id' })
@@ -87,7 +86,7 @@ export class PlanetController {
   }
 
   @Delete(':id')
-  @UsePermissionsGuard(EntitiesActions.delete, PlanetEntity)
+  @UsePermissionsGuard(Actions.delete, PlanetEntity)
   @ApiParam({ name: 'id' })
   @ApiOperation({ summary: 'Delete planet' })
   @ApiOkResponse({ type: PlanetEntity })
@@ -96,7 +95,7 @@ export class PlanetController {
   }
 
   @Post('relation/:id')
-  @UsePermissionsGuard(EntitiesActions.update, PlanetEntity)
+  @UsePermissionsGuard(Actions.update, PlanetEntity)
   @ApiOperation({ summary: 'Create planet relations with' })
   @ApiCreatedResponse({ type: PlanetEntity })
   createRelationWith(

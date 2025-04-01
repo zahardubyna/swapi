@@ -8,7 +8,11 @@ import { AnyClass } from '@casl/ability/dist/types/types';
 import * as extra from '@casl/ability/extra';
 import { Inject, Injectable } from '@nestjs/common';
 import { CASL_FEATURE_OPTIONS } from '../casl.constants';
-import { AppAbility, AuthorizableUser, ModuleOptionsForFeature } from '../casl.interface';
+import {
+  AppAbility,
+  AuthorizableUser,
+  ModuleOptionsForFeature,
+} from '../casl.interface';
 
 @Injectable()
 export class PermissionsFactory {

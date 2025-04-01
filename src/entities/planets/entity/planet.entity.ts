@@ -1,12 +1,13 @@
 import {
   BaseEntity,
-  Column, CreateDateColumn,
+  Column,
+  CreateDateColumn,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
-  PrimaryGeneratedColumn, UpdateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ImagesEntity } from '@file.services/images/entity/images.entity';
 import { PeopleEntity } from '@entities/people/entity/people.entity';

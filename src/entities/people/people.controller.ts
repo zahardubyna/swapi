@@ -9,7 +9,6 @@ import {
   Put,
   Query,
   UploadedFiles,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { PeopleService } from './people.service';
@@ -18,7 +17,7 @@ import { PeopleUpdateDto } from '@entities/people/dto/people.update.dto';
 import { PeopleRelationDto } from '@entities/people/dto/people.relation.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UsePermissionsGuard } from '@casl/guards/permission.guard';
-import { EntitiesActions } from '@entities/entity.permissions';
+import { Actions } from '@casl/actions.enum';
 import {
   ApiBearerAuth,
   ApiConsumes,
@@ -39,7 +38,7 @@ export class PeopleController {
   constructor(private readonly peopleServices: PeopleService) {}
 
   @Get()
-  @UsePermissionsGuard(EntitiesActions.get, PeopleEntity)
+  @UsePermissionsGuard(Actions.get, PeopleEntity)
   @ApiOperation({ summary: 'Get few people' })
   @ApiOkResponse({ type: PeopleEntity, isArray: true })
   getFew(
@@ -50,7 +49,7 @@ export class PeopleController {
   }
 
   @Get(':id')
-  @UsePermissionsGuard(EntitiesActions.get, PeopleEntity)
+  @UsePermissionsGuard(Actions.get, PeopleEntity)
   @ApiParam({ name: 'id' })
   @ApiOperation({ summary: 'Get unique person' })
   @ApiOkResponse({ type: PeopleEntity })
@@ -59,7 +58,7 @@ export class PeopleController {
   }
 
   @Post()
-  @UsePermissionsGuard(EntitiesActions.create, PeopleEntity)
+  @UsePermissionsGuard(Actions.create, PeopleEntity)
   @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Create person' })
@@ -72,7 +71,7 @@ export class PeopleController {
   }
 
   @Put(':id')
-  @UsePermissionsGuard(EntitiesActions.update, PeopleEntity)
+  @UsePermissionsGuard(Actions.update, PeopleEntity)
   @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
   @ApiParam({ name: 'id' })
@@ -87,7 +86,7 @@ export class PeopleController {
   }
 
   @Delete(':id')
-  @UsePermissionsGuard(EntitiesActions.delete, PeopleEntity)
+  @UsePermissionsGuard(Actions.delete, PeopleEntity)
   @ApiParam({ name: 'id' })
   @ApiOperation({ summary: 'Delete person' })
   @ApiOkResponse({ type: PeopleEntity })
@@ -96,7 +95,7 @@ export class PeopleController {
   }
 
   @Post('relation/:id')
-  @UsePermissionsGuard(EntitiesActions.update, PeopleEntity)
+  @UsePermissionsGuard(Actions.update, PeopleEntity)
   @ApiOperation({ summary: 'Create person relations with' })
   @ApiCreatedResponse({ type: PeopleEntity })
   createRelationWith(

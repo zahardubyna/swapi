@@ -16,7 +16,8 @@ import { SkipAuth } from './skip.auth';
 import { Throttle } from '@nestjs/throttler';
 import { GetUserFromRequest } from '../common/decorators/user.decorator';
 import {
-  ApiBaseBadRequestResponse, ApiBaseForbiddenResponse,
+  ApiBaseBadRequestResponse,
+  ApiBaseForbiddenResponse,
   ApiBaseInternalServerErrorResponse,
   ApiBaseUnauthorizedResponse,
 } from '../common/decorators/api-base-response.decorator';
@@ -49,7 +50,10 @@ export class AuthController {
     @Req() req: Request,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const tokens = await this.authServices.login(dto, req.cookies?.refresh_token);
+    const tokens = await this.authServices.login(
+      dto,
+      req.cookies?.refresh_token,
+    );
     await this.authServices.saveCookie(response, tokens);
     return tokens;
   }
@@ -69,7 +73,11 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ) {
     await this.authServices.deleteCookie(response);
-    return this.authServices.logout(id, access_token, req.cookies?.refresh_token);
+    return this.authServices.logout(
+      id,
+      access_token,
+      req.cookies?.refresh_token,
+    );
   }
 
   @Post('refresh')

@@ -31,29 +31,3 @@ export const Entities = {
   species: SpecieEntity,
   vehicles: VehicleEntity,
 };
-
-export const entities: {
-  people: 'people';
-
-  films: 'films';
-
-  planets: 'planets';
-
-  species: 'species';
-
-  starships: 'starships';
-
-  vehicles: 'vehicles';
-} = {
-  people: 'people',
-
-  films: 'films',
-
-  planets: 'planets',
-
-  species: 'species',
-
-  starships: 'starships',
-
-  vehicles: 'vehicles',
-};

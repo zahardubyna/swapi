@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './services/auth.service';
 import { AccessTokenStrategy } from './strategy/at.strategy';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { UsersService } from '@users/users.service';
 import { UsersModule } from '@users/users.module';
 import { PassportModule } from '@nestjs/passport';
@@ -23,8 +23,6 @@ import { RedisService } from '../redis/redis.service';
     TokenService,
     RedisService,
   ],
-  exports: [
-    TokenService
-  ]
+  exports: [TokenService],
 })
 export class AuthModule {}

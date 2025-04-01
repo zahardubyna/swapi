@@ -36,7 +36,7 @@ export class AuthService {
 
     const valid: boolean = await bcrypt.compare(password, user.password);
     if (!valid) {
-      throw new UnauthorizedException('Email or password are incorrect');
+      throw new UnauthorizedException('Username or password are incorrect');
     }
 
     return user;
@@ -63,7 +63,11 @@ export class AuthService {
     return tokens;
   }
 
-  async logout(userId: number, access_token: string, refresh_token: string | undefined) {
+  async logout(
+    userId: number,
+    access_token: string,
+    refresh_token: string | undefined,
+  ) {
     const user = await dataSource.manager.findOne(UserEntity, {
       where: { id: userId },
     });
@@ -71,28 +75,25 @@ export class AuthService {
     if (user) {
       await this.tokenService.updateRefreshToken(user, refresh_token);
 
-
       await this.tokenService.setTokensInBlacklist([
         access_token,
         refresh_token,
       ]);
-
     } else {
       throw new ForbiddenException('Access Denied');
     }
   }
 
-  async refreshTokens(
-    refresh_token: string | undefined,
-  ) {
+  async refreshTokens(refresh_token: string | undefined) {
     // console.log(refresh_token);
 
-    const payload = await this.tokenService.verifyAndDecodeRefreshToken(refresh_token);
+    const payload =
+      await this.tokenService.verifyAndDecodeRefreshToken(refresh_token);
 
     // console.log(payload);
 
     const user = await dataSource.manager.findOne(UserEntity, {
-      where: {  id: payload.id },
+      where: { id: payload.id },
     });
 
     if (!user || user.username !== payload.username) {

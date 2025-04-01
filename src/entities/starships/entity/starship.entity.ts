@@ -1,10 +1,12 @@
 import {
   BaseEntity,
-  Column, CreateDateColumn,
+  Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
-  PrimaryGeneratedColumn, UpdateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ImagesEntity } from '@file.services/images/entity/images.entity';
 import { PeopleEntity } from '@entities/people/entity/people.entity';
@@ -12,7 +14,6 @@ import { FilmEntity } from '@entities/films/entity/film.entity';
 import { IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-
 
 @Entity({ name: 'starships' })
 export class StarshipEntity extends BaseEntity {

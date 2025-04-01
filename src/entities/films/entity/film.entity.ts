@@ -1,10 +1,12 @@
 import {
   BaseEntity,
-  Column, CreateDateColumn,
+  Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
-  PrimaryGeneratedColumn, UpdateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ImagesEntity } from '@file.services/images/entity/images.entity';
 import { PeopleEntity } from '@entities/people/entity/people.entity';
@@ -12,7 +14,7 @@ import { PlanetEntity } from '@entities/planets/entity/planet.entity';
 import { StarshipEntity } from '@entities/starships/entity/starship.entity';
 import { SpecieEntity } from '@entities/species/entity/specie.entity';
 import { VehicleEntity } from '@entities/vehicles/entity/vehicle.entity';
-import { IsDate, IsNumber, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 
