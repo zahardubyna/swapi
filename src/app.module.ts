@@ -24,8 +24,8 @@ import { RedisModule } from './redis/redis.module';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => [
         {
-          ttl: config.get<number>('THROTTLE_TTL'),
-          limit: config.get<number>('THROTTLE_LIMIT'),
+          ttl: +(config.get<number>('THROTTLE_TTL') || 60000),
+          limit: +(config.get<number>('THROTTLE_LIMIT') || 20),
         },
       ],
     }),

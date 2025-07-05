@@ -19,11 +19,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
       : HttpStatus.INTERNAL_SERVER_ERROR;
 
     response.status(status).json({
-      status: status,
       success: false,
-      timestamp: new Date().toISOString(),
-      path: request.url,
-      error: exception.getResponse(),
+      error: {
+        code: status,
+        message: exception?.message,
+      },
     });
   }
 }

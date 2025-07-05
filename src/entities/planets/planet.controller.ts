@@ -28,11 +28,11 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { PlanetEntity } from '@entities/planets/entity/planet.entity';
-import { ApiBaseResponse } from '../../common/decorators/api-base-response.decorator';
+import { ApiBaseResponses } from '../../common/decorators/api-base-response.decorator';
 
 @ApiTags('Planets')
 @ApiBearerAuth()
-@ApiBaseResponse()
+@ApiBaseResponses()
 @Controller('planet')
 export class PlanetController {
   constructor(private readonly planetServices: PlanetService) {}

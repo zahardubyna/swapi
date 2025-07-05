@@ -28,11 +28,11 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { VehicleEntity } from '@entities/vehicles/entity/vehicle.entity';
-import { ApiBaseResponse } from '../../common/decorators/api-base-response.decorator';
+import { ApiBaseResponses } from '../../common/decorators/api-base-response.decorator';
 
 @ApiTags('Vehicles')
 @ApiBearerAuth()
-@ApiBaseResponse()
+@ApiBaseResponses()
 @Controller('vehicles')
 export class VehicleController {
   constructor(private readonly vehicleServices: VehicleService) {}

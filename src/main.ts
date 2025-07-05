@@ -36,8 +36,6 @@ async function bootstrap() {
   }
 
   {
-    // https://docs.nestjs.com/pipes#validation-pipe
-
     const options = {
       transform: true,
       whitelist: true,
@@ -80,4 +78,6 @@ async function bootstrap() {
   });
 }
 
-bootstrap();
+bootstrap().catch((error: unknown) => {
+  Logger.error("Error during bootstrap:", error);
+});

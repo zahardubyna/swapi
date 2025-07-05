@@ -28,11 +28,11 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { SpecieEntity } from '@entities/species/entity/specie.entity';
-import { ApiBaseResponse } from '../../common/decorators/api-base-response.decorator';
+import { ApiBaseResponses } from '../../common/decorators/api-base-response.decorator';
 
 @ApiTags('Species')
 @ApiBearerAuth()
-@ApiBaseResponse()
+@ApiBaseResponses()
 @Controller('species')
 export class SpecieController {
   constructor(private readonly specieService: SpecieService) {}

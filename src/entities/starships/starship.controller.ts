@@ -29,11 +29,11 @@ import {
 } from '@nestjs/swagger';
 
 import { StarshipEntity } from '@entities/starships/entity/starship.entity';
-import { ApiBaseResponse } from '../../common/decorators/api-base-response.decorator';
+import { ApiBaseResponses } from '../../common/decorators/api-base-response.decorator';
 
 @ApiTags('Starships')
 @ApiBearerAuth()
-@ApiBaseResponse()
+@ApiBaseResponses()
 @Controller('starships')
 export class StarshipController {
   constructor(private readonly starshipServices: StarshipService) {}

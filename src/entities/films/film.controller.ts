@@ -28,11 +28,11 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { ApiBaseResponse } from '../../common/decorators/api-base-response.decorator';
+import { ApiBaseResponses } from '../../common/decorators/api-base-response.decorator';
 
 @ApiTags('Films')
 @ApiBearerAuth()
-@ApiBaseResponse()
+@ApiBaseResponses()
 @Controller('films')
 export class FilmController {
   constructor(private readonly filmServices: FilmService) {}

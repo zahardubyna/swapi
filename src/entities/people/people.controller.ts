@@ -28,11 +28,11 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { PeopleEntity } from '@entities/people/entity/people.entity';
-import { ApiBaseResponse } from '../../common/decorators/api-base-response.decorator';
+import { ApiBaseResponses } from '../../common/decorators/api-base-response.decorator';
 
 @ApiTags('People')
 @ApiBearerAuth()
-@ApiBaseResponse()
+@ApiBaseResponses()
 @Controller('people')
 export class PeopleController {
   constructor(private readonly peopleServices: PeopleService) {}
